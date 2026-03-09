@@ -14,6 +14,8 @@ import Orders from "./pages/Orders";
 import NotFound from "./pages/NotFound";
 import ProductManagement from "./pages/ProductManagement";
 import Account from "./pages/Account";
+import UserManagement from "./pages/UserManagement";
+import CategoryManagement from "./pages/CategoryManagement";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
             <Route path="/product-management" element={<ProductManagement />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/category-management" element={<CategoryManagement />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

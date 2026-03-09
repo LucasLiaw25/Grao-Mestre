@@ -8,7 +8,8 @@ import { useToast } from "@/hooks/use-toast"; // Assumindo que você tem um hook
 import { usersApi, addressesApi } from "@/lib/api";
 import type { UserResponseDTO, UserRequestDTO, AddressResponseDTO, AddressRequestDTO } from "@/types";
 import { Footer } from "@/components/Footer";
-import { AddressForm } from "@/components/AddressForm"; // Importar o novo componente
+import { AddressForm } from "@/components/AddressForm";
+
 
 export default function Account() {
   const { toast } = useToast();
