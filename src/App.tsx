@@ -16,7 +16,11 @@ import ProductManagement from "./pages/ProductManagement";
 import Account from "./pages/Account";
 import UserManagement from "./pages/UserManagement";
 import CategoryManagement from "./pages/CategoryManagement";
+import ExpenseManagement from "./pages/ExpenseManagemente";
+import OrderManagement from "./pages/OrderManagement";
+import FinancialReport from "./pages/FinancialReport";
 import { DashboardLayout } from "./pages/DashboardLayout";
+import DailyOrderMonitor from "./pages/DailyOrderMonitor";
 
 const queryClient = new QueryClient();
 
@@ -40,8 +44,14 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardOverview />} />
               <Route path="user-management" element={<UserManagement />} />
+              <Route path="admin-dashboard" element={<DailyOrderMonitor />} />
+              <Route path="admin-dashboard" element={<DailyOrderMonitor />} />
               <Route path="category-management" element={<CategoryManagement />} />
               <Route path="product-management" element={<ProductManagement />} />
+              <Route path="expense-management" element={<ExpenseManagement />} />
+              <Route path="order-management" element={<OrderManagement />} />
+              <Route path="expense-management" element={<ExpenseManagement />} />
+              <Route path="financial-report" element={<FinancialReport />} />
             </Route>
           </Routes>
         </AuthProvider>

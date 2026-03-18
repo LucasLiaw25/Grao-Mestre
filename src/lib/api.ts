@@ -9,7 +9,13 @@ import type {
     ScopeResponseDTO, ScopeRequestDTO,
     OrderStatus, PaymentStatus, TimePeriod, TimeRange,
     OrderItemRequestDTO,
+    ExpenseResponseDTO,
+    ExpenseRequestDTO,
+    PageableResponse,
+    FinancialReportResponseDTO,
+    TopItemDTO,
 } from "@/types";
+import { format } from "date-fns";
 
 const API_BASE_URL = 'http://localhost:8081/api';
 
@@ -19,6 +25,22 @@ const apiClient = axios.create({
         'Content-Type': 'application/json',
     },
 });
+
+function getTodayStr(): string {
+  return format(new Date(), "yyyy-MM-dd");
+}
+
+interface NormalizedTopItem {
+  key: string;
+  value: number;
+}
+
+function normalizeTopItems(raw: { name: string; value: number }[]): NormalizedTopItem[] {
+  return raw.map(item => ({
+    key: item.name,
+    value: item.value
+  }));
+}
 
 apiClient.interceptors.request.use(
     (config) => {
@@ -56,6 +78,30 @@ export const usersApi = {
     updateScopes: (id: number, scopeIds: number[]) => apiClient.put<UserResponseDTO>(`/users/${id}/scopes`, scopeIds),
     delete: (id: number) => apiClient.delete<void>(`/users/${id}`),
     activate: (token: string) => apiClient.get<UserResponseDTO>(`/users/activate?token=${token}`),
+};
+
+export const expensesApi = {
+    create: (data: ExpenseRequestDTO) => apiClient.post<ExpenseResponseDTO>("/expenses", data),
+    getAll: () => apiClient.get<ExpenseResponseDTO[]>("/expenses"),
+    getById: (id: number) => apiClient.get<ExpenseResponseDTO>(`/expenses/${id}`),
+    update: (id: number, data: ExpenseRequestDTO) => apiClient.put<ExpenseResponseDTO>(`/expenses/${id}`, data),
+    delete: (id: number) => apiClient.delete<void>(`/expenses/${id}`),
+    
+    getExpensesByPeriod: (timePeriod: TimePeriod, startDate?: string, endDate?: string) => {
+        return apiClient.get<ExpenseResponseDTO[]>("/expenses/period", {
+            params: {
+                timePeriod,
+                startDate,
+                endDate
+            }
+        });
+    },
+    getExpensesForToday: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/today"),
+    getExpensesForYesterday: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/yesterday"),
+    getExpensesForThisWeek: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/this-week"),
+    getExpensesForLastWeek: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/last-week"),
+    getExpensesForThisMonth: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/this-month"),
+    getExpensesForLastMonth: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/last-month"),
 };
 
 export const productsApi = {
@@ -101,15 +147,95 @@ export const ordersApi = {
     getMyOrderHistory: () => apiClient.get<OrderResponseDTO[]>("/orders/my"),
     getMyOrderDetails: (orderId: number) => apiClient.get<OrderResponseDTO>(`/orders/my/${orderId}`),
     getMyOrdersByStatus: (status: OrderStatus) => apiClient.get<OrderResponseDTO[]>(`/orders/my/status/${status}`),
-    getAll: (pageable?: { page?: number; size?: number; sort?: string }) => apiClient.get<any>("/orders", { params: pageable }),
-    filter: (params: { status?: OrderStatus; startDate?: string; endDate?: string; userId?: number; page?: number; size?: number; sort?: string }) => apiClient.get<any>("/orders/filter", { params }),
+    // CORREÇÃO: Tipagem para PageableResponse<OrderResponseDTO>
+    getAll: (pageable?: { page?: number; size?: number; sort?: string }) => apiClient.get<PageableResponse<OrderResponseDTO>>("/orders", { params: pageable }),
+    // CORREÇÃO: Tipagem para PageableResponse<OrderResponseDTO>
+    filter: (params: { status?: OrderStatus; startDate?: string; endDate?: string; userId?: number; page?: number; size?: number; sort?: string; period?: TimePeriod; }) => apiClient.get<PageableResponse<OrderResponseDTO>>("/orders/filter", { params }),
     getOrderDetailsForAdmin: (orderId: number) => apiClient.get<OrderResponseDTO>(`/orders/${orderId}`),
     updateOrderStatus: (orderId: number, newStatus: OrderStatus) => apiClient.put<OrderResponseDTO>(`/orders/${orderId}/status`, null, { params: { newStatus } }),
-    // Métodos para gerenciamento de itens no pedido (carrinho)
     addItemToOrder: (orderId: number, item: OrderItemRequestDTO) => apiClient.post<OrderResponseDTO>(`/orders/${orderId}/items`, item),
     removeItemFromOrder: (orderId: number, orderItemId: number) => apiClient.delete<OrderResponseDTO>(`/orders/${orderId}/items/${orderItemId}`),
     updateOrderItemQuantity: (orderId: number, orderItemId: number, quantity: number) => apiClient.put<OrderResponseDTO>(`/orders/${orderId}/items/${orderItemId}/quantity`, null, { params: { quantity } }),
+    getOrdersForToday: () => apiClient.get<OrderResponseDTO[]>("/orders/today"),
+    getOrdersForYesterday: () => apiClient.get<OrderResponseDTO[]>("/orders/yesterday"),
+    getOrdersForThisWeek: () => apiClient.get<OrderResponseDTO[]>("/orders/this-week"),
+    getOrdersForLastWeek: () => apiClient.get<OrderResponseDTO[]>("/orders/last-week"),
+    getOrdersForThisMonth: () => apiClient.get<OrderResponseDTO[]>("/orders/this-month"),
+    getOrdersForLastMonth: () => apiClient.get<OrderResponseDTO[]>("/orders/last-month"),
+    getOrdersForCustomPeriod: (startDate: string, endDate: string) => apiClient.get<OrderResponseDTO[]>("/orders/custom", { params: { startDate, endDate } }),
+    getOrdersByTimePeriod: (period: TimePeriod, startDate?: string, endDate?: string) => apiClient.get<OrderResponseDTO[]>("/orders/by-period", { params: { period, startDate, endDate } }),
 };
+
+    export const financialReportsApi = {
+        getFinancialSummary: (period?: TimePeriod, startDate?: string, endDate?: string) => {
+            return apiClient.get<FinancialReportResponseDTO>("/financial-reports/summary", {
+                params: { period, startDate, endDate }
+            });
+        },
+        getTodayRevenue: () => apiClient.get<number>("/financial-reports/today-revenue"),
+        getTodayPendingAndProcessingOrdersCount: () => apiClient.get<Map<string, number>>("/financial-reports/today-orders-status"),
+        getProductRevenueByPeriod: (productId: number, startDate: string, endDate: string) => {
+            return apiClient.get<number>("/financial-reports/product-revenue", {
+                params: { productId, startDate, endDate }
+            });
+        },
+        getCategoryRevenueByPeriod: (categoryId: number, startDate: string, endDate: string) => {
+            return apiClient.get<number>("/financial-reports/category-revenue", {
+                params: { categoryId, startDate, endDate }
+            });
+        },
+        getProductQuantitySoldByPeriod: (productId: number, startDate: string, endDate: string) => {
+            return apiClient.get<number>("/financial-reports/product-quantity-sold", {
+                params: { productId, startDate, endDate }
+            });
+        },
+        getCategoryQuantitySoldByPeriod: (categoryId: number, startDate: string, endDate: string) => {
+            return apiClient.get<number>("/financial-reports/category-quantity-sold", {
+                params: { categoryId, startDate, endDate }
+            });
+        },
+        getTopNProductsByRevenue: (
+            limit: number,
+            startDate?: string,
+            endDate?: string
+            ) => {
+            const today = getTodayStr();
+            return apiClient.get<TopItemDTO[]>(
+                "/financial-reports/top-products-by-revenue",
+                {
+                params: {
+                    limit,
+                    startDate: startDate ?? today,
+                    endDate: endDate ?? today,
+                },
+                }
+            );
+            },
+
+            getTopNProductsByQuantitySold: (
+            limit: number,
+            startDate?: string,
+            endDate?: string
+            ) => {
+            const today = getTodayStr();
+            return apiClient.get<TopItemDTO[]>(
+                "/financial-reports/top-products-by-quantity",
+                {
+                params: {
+                    limit,
+                    startDate: startDate ?? today,
+                    endDate: endDate ?? today,
+                },
+                }
+            );
+            },
+        getAverageOrderValue: (startDate: string, endDate: string) => {
+            return apiClient.get<number>("/financial-reports/average-order-value", {
+                params: { startDate, endDate }
+            });
+        }
+    };
+
 
 export const addressesApi = {
     getAll: () => apiClient.get<AddressResponseDTO[]>("/addresses"),

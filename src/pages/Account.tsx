@@ -225,7 +225,7 @@ export default function Account() {
             <h1 className="section-title mb-8">Manage Profile & Addresses</h1>
             <div className="flex flex-wrap gap-4 mt-6">
               {isAdmin && (
-                <Link to="/dashboard" className="btn-hero-primary flex items-center gap-2 px-6 py-3 text-base">
+                <Link to="/dashboard/admin-dashboard" className="btn-hero-primary flex items-center gap-2 px-6 py-3 text-base">
                   <LayoutDashboard className="w-5 h-5" /> Dashboard
                 </Link>
               )}
@@ -276,20 +276,7 @@ export default function Account() {
                   className="w-full px-4 py-2 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed transition-all"
                 />
               </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={profileFormData.email || ""}
-                  onChange={handleProfileChange}
-                  disabled={!isEditingProfile || updateUserMutation.isPending}
-                  className="w-full px-4 py-2 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed transition-all"
-                />
-              </div>
+            
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground mb-2">
                   Phone

@@ -5,7 +5,7 @@ import { ordersApi } from "@/lib/api";
 import { formatCurrency } from "@/lib/format";
 import { Footer } from "@/components/Footer";
 import { Package, Clock, Minus, Plus, Trash2, ShoppingBag, CheckCircle } from "lucide-react";
-import type { OrderResponseDTO, OrderStatus } from "@/types";
+import { OrderResponseDTO, OrderStatus } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom"; // Para redirecionar após finalizar compra
@@ -71,7 +71,7 @@ export default function Orders() {
   // Mutation para finalizar a compra (mudar status de PENDING para PROCESSING/PAID)
   const finalizeOrderMutation = useMutation({
     mutationFn: (orderId: number) =>
-      ordersApi.updateOrderStatus(orderId, "PAID" as OrderStatus), // Ou "PROCESSING"
+      ordersApi.updateOrderStatus(orderId, OrderStatus.PROCESSING),
     onSuccess: () => {
       toast({ title: "Order Placed!", description: "Your order has been successfully placed." });
       queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });

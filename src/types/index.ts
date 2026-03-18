@@ -6,13 +6,14 @@ export enum TimeRange {
 }
 
 export enum TimePeriod {
-    TODAY = "Hoje",
-    YESTERDAY = "Ontem",
-    THIS_WEEK = "Esta Semana",
-    LAST_WEEK = "Semana Passada",
-    THIS_MONTH = "Este Mês",
-    LAST_MONTH = "Mês Passado",
-    CUSTOM = "Personalizado",
+    TODAY = "TODAY",
+    YESTERDAY = "YESTERDAY",
+    THIS_WEEK = "THIS_WEEK",
+    LAST_WEEK = "LAST_WEEK",
+    THIS_MONTH = "THIS_MONTH",
+    LAST_MONTH = "LAST_MONTH",
+    CUSTOM = "CUSTOM",
+    ALL = "ALL"
 }
 
 export enum PaymentStatus {
@@ -122,11 +123,43 @@ export interface AddressResponseDTO {
     userId: number;
 }
 
-// --- DTOs de Requisição (Request DTOs) ---
+export interface ExpenseResponseDTO {
+    id: number;
+    name: string;
+    price: number;
+    date: string;
+}
+
+// Nova interface para o FinancialReport
+export interface FinancialReportResponseDTO {
+    totalRevenue: number; // Corresponde a totalRevenue no Java
+    totalExpenses: number;
+    totalOrders: number;
+    completedOrders: number;
+    canceledOrders: number;
+    pendingOrders: number;
+    processingOrders: number; // Este campo estava faltando ou não estava sendo reconhecido
+    netProfit: number;
+    revenueByCategory: { [key: string]: number };
+    revenueByProduct: { [key: string]: number };
+    quantitySoldByProduct: { [key: string]: number };
+    quantitySoldByCategory: { [key: string]: number };
+    revenueByPaymentMethod: { [key: string]: number }; // Adicionado na versão completa
+}
+
+export interface TopItemDTO {
+  name: string;
+  value: number;
+}
 
 export interface UserLoginRequestDTO {
     email: string;
     password: string;
+}
+
+export interface ExpenseRequestDTO {
+    name: string;
+    price: number;
 }
 
 export interface ScopeRequestDTO{
@@ -184,4 +217,34 @@ export interface AddressRequestDTO {
     cep: string;
     isDefault?: boolean;
     userId: number;
+}
+
+
+export interface PageableResponse<T> {
+    content: T[];
+    pageable: {
+        pageNumber: number;
+        pageSize: number;
+        sort: {
+            empty: boolean;
+            sorted: boolean;
+            unsorted: boolean;
+        };
+        offset: number;
+        paged: boolean;
+        unpaged: boolean;
+    };
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+    };
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
 }
