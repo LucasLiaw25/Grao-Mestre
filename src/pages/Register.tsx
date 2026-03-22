@@ -101,7 +101,7 @@ export default function Register() {
       >
         <div className="text-center mb-10">
           <Link to="/" className="font-serif text-3xl font-bold text-foreground">Grão Mestre.</Link>
-          <p className="text-muted-foreground mt-3">Create your account</p>
+          <p className="text-muted-foreground mt-3">Crie sua conta</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass-card p-8 space-y-5">
@@ -147,7 +147,7 @@ export default function Register() {
 
           {/* Campo Senha */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">Password</label>
+            <label className="text-sm font-medium text-foreground mb-2 block">Senha</label>
             <input
               type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
@@ -173,7 +173,7 @@ export default function Register() {
 
           {/* Campo Repetir Senha */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">Confirm Password</label>
+            <label className="text-sm font-medium text-foreground mb-2 block">Confirmar Senha</label>
             <input
               type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
               className={`w-full px-4 py-3 bg-background border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all ${
@@ -187,12 +187,12 @@ export default function Register() {
           </div>
 
           <Button type="submit" className="w-full mt-2" size="lg" disabled={isLoading}>
-            {isLoading ? "Creating account..." : "Create Account"}
+            {isLoading ? "Creating account..." : "Criar Conta"}
           </Button>
         </form>
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          Already have an account?{" "}
+          Já tem uma conta?{" "}
           <Link to="/" className="text-primary font-medium hover:underline">Sign in</Link>
         </p>
       </motion.div>

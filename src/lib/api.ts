@@ -18,7 +18,7 @@ import type {
 } from "@/types";
 import { format } from "date-fns";
 
-const API_BASE_URL = 'graomestre-production.up.railway.app/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
