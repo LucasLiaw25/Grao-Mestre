@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import axios from "axios";
 import type { UserResponseDTO, AuthResponseDTO, UserLoginRequestDTO, UserRegisterRequestDTO } from "@/types";
 
-const API_BASE_URL = 'http://localhost:8081/api';
+const API_BASE_URL = 'graomestre-production.up.railway.app';
 
 interface AuthContextType {
   user: UserResponseDTO | null;

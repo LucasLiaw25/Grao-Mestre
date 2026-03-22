@@ -18,7 +18,7 @@ import type {
 } from "@/types";
 import { format } from "date-fns";
 
-const API_BASE_URL = 'http://localhost:8081/api';
+const API_BASE_URL = 'graomestre-production.up.railway.app';
 
 const apiClient = axios.create({
     baseURL: API_BASE_URL,
