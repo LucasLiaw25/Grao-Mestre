@@ -77,15 +77,11 @@ function normalizeTopItems(raw: unknown[]): NormalizedTopItem[] {
 
 const PERIOD_CONFIG: { value: TimePeriod | "CUSTOM"; label: string }[] = [
   { value: TimePeriod.TODAY,      label: "Hoje"           },
-  { value: TimePeriod.YESTERDAY,  label: "Ontem"          },
   { value: TimePeriod.THIS_WEEK,  label: "Esta semana"    },
-  { value: TimePeriod.LAST_WEEK,  label: "Semana passada" },
   { value: TimePeriod.THIS_MONTH, label: "Este mês"       },
-  { value: TimePeriod.LAST_MONTH, label: "Mês passado"    },
   { value: "CUSTOM",              label: "Personalizado"  },
 ];
 
-// ─── Sub-componentes ──────────────────────────────────────────────────────────
 
 const MetricCard: React.FC<{
   label: string;

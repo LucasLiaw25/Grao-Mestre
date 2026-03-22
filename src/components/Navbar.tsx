@@ -43,8 +43,8 @@ export function Navbar() {
 
   const navLinks = [
     { to: "/", label: "Home" },
-    { to: "/products", label: "Shop Products" },
-    { to: "/about", label: "About Us" }, 
+    { to: "/products", label: "Produtos" },
+    { to: "/about", label: "Sobre Nós" }, 
   ];
 
   // NOVO: Query para buscar o pedido PENDING do usuário (carrinho)

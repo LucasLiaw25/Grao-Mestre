@@ -14,6 +14,7 @@ import type {
     PageableResponse,
     FinancialReportResponseDTO,
     TopItemDTO,
+    PaymentMethod,
 } from "@/types";
 import { format } from "date-fns";
 
@@ -147,9 +148,9 @@ export const ordersApi = {
     getMyOrderHistory: () => apiClient.get<OrderResponseDTO[]>("/orders/my"),
     getMyOrderDetails: (orderId: number) => apiClient.get<OrderResponseDTO>(`/orders/my/${orderId}`),
     getMyOrdersByStatus: (status: OrderStatus) => apiClient.get<OrderResponseDTO[]>(`/orders/my/status/${status}`),
-    // CORREÇÃO: Tipagem para PageableResponse<OrderResponseDTO>
+    finalizePayment: (orderId: number, paymentMethod: PaymentMethod) => 
+        apiClient.post<OrderResponseDTO>(`/orders/${orderId}/finalize-payment?paymentMethod=${paymentMethod}`),
     getAll: (pageable?: { page?: number; size?: number; sort?: string }) => apiClient.get<PageableResponse<OrderResponseDTO>>("/orders", { params: pageable }),
-    // CORREÇÃO: Tipagem para PageableResponse<OrderResponseDTO>
     filter: (params: { status?: OrderStatus; startDate?: string; endDate?: string; userId?: number; page?: number; size?: number; sort?: string; period?: TimePeriod; }) => apiClient.get<PageableResponse<OrderResponseDTO>>("/orders/filter", { params }),
     getOrderDetailsForAdmin: (orderId: number) => apiClient.get<OrderResponseDTO>(`/orders/${orderId}`),
     updateOrderStatus: (orderId: number, newStatus: OrderStatus) => apiClient.put<OrderResponseDTO>(`/orders/${orderId}/status`, null, { params: { newStatus } }),

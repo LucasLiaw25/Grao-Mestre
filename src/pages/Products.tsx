@@ -40,8 +40,8 @@ export default function Products() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="section-label">Our Collection</span>
-            <h1 className="section-title mb-8">Shop Coffee</h1>
+            <span className="section-label">Nossa Coleção</span>
+            <h1 className="section-title mb-8">Comprar Cafés</h1>
           </motion.div>
 
           {/* Search & Filters */}
@@ -55,7 +55,7 @@ export default function Products() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search coffees..."
+                placeholder="Pesquisar Cafés..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"

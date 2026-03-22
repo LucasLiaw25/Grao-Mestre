@@ -51,7 +51,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="section-label drop-shadow-md mb-6"
           >
-            Exceptional Quality
+            Qualidade Excepcional
           </motion.span>
 
           <motion.h1
@@ -60,9 +60,9 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.4 }}
             className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-primary-foreground mb-8 leading-[1.1]"
           >
-            The Grand Master
+            O Grande Mestre
             <br />
-            <span className="text-primary-foreground/90 italic">of Roasting.</span>
+            <span className="text-primary-foreground/90 italic">de Torra.</span>
           </motion.h1>
 
           <motion.p
@@ -71,7 +71,7 @@ export default function Home() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
           >
-            Experience ethically sourced, meticulously roasted coffee delivered straight to your door. A ritual worth waking up for.
+           Experimente café de origem ética, meticulosamente torrado, entregue diretamente na sua porta. Um ritual que vale a pena acordar para.
           </motion.p>
 
           <motion.div
@@ -81,11 +81,11 @@ export default function Home() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link to="/products" className="btn-hero-primary w-full sm:w-auto">
-              Shop Collection
+              Colção de Produtos
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a href="#features" className="btn-hero-ghost w-full sm:w-auto">
-              Our Story
+              Nossa História
             </a>
           </motion.div>
         </div>
@@ -106,9 +106,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-              { icon: Leaf, title: "Ethically Sourced", desc: "Direct trade relationships with farmers ensuring fair wages and sustainable practices." },
-              { icon: Droplets, title: "Small Batch Roasted", desc: "Roasted weekly to order in our local facility to guarantee peak freshness and flavor." },
-              { icon: Coffee, title: "Perfectly Crafted", desc: "Curated profiles designed to highlight the unique terroir of every bean." },
+              { icon: Leaf, title: "De Origem Ética", desc: "Relações comerciais diretas com agricultores garantindo salários justos e práticas sustentáveis." },
+              { icon: Droplets, title: "Torrado em Pequenos Lotes", desc: "Torrado semanalmente sob encomenda em nossa instalação local para garantir frescor e sabor máximos." },
+              { icon: Coffee, title: "Perfeitamente Feito", desc: "Perfis curados projetados para destacar o terroir único de cada grão." },
             ].map((feature, i) => (
               <motion.div
                 key={i}
@@ -140,14 +140,14 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="max-w-2xl"
             >
-              <span className="section-label">Fresh Offerings</span>
-              <h2 className="section-title">Featured Roasts</h2>
+              <span className="section-label">Ofertas Frescas</span>
+              <h2 className="section-title">Torrados em Destaque</h2>
             </motion.div>
             <Link
               to="/products"
               className="group flex items-center gap-2 font-semibold text-foreground hover:text-primary transition-colors pb-2 border-b-2 border-transparent hover:border-primary"
             >
-              View All Coffee
+              Veja Todos os Grãos
               <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

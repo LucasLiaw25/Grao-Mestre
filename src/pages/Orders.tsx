@@ -5,36 +5,35 @@ import { ordersApi } from "@/lib/api";
 import { formatCurrency } from "@/lib/format";
 import { Footer } from "@/components/Footer";
 import { Package, Clock, Minus, Plus, Trash2, ShoppingBag, CheckCircle } from "lucide-react";
-import { OrderResponseDTO, OrderStatus } from "@/types";
+import { OrderResponseDTO, OrderStatus, PaymentMethod } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom"; // Para redirecionar após finalizar compra
+import React from "react";
+import { cn } from "@/lib/utils";
 
 export default function Orders() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [selectedMethod, setSelectedMethod] = React.useState<PaymentMethod | undefined>(undefined);
 
-  // Query para buscar o pedido PENDING (carrinho)
   const { data: pendingOrder, isLoading: isLoadingPendingOrder } = useQuery<OrderResponseDTO | undefined>({
-    queryKey: ["pendingOrder"], // Não precisa do user.id aqui, pois o interceptor já cuida
+    queryKey: ["pendingOrder"], 
     queryFn: async () => {
       const response = await ordersApi.getMyOrdersByStatus("PENDING" as OrderStatus);
-      // Acessa a propriedade 'data' da resposta do Axios
+  
       return response.data.length > 0 ? response.data[0] : undefined;
     },
-    staleTime: 0, // Sempre atualizado
+    staleTime: 0, 
     refetchOnWindowFocus: true,
   });
 
-  // Query para buscar o histórico de pedidos (não PENDING)
   const { data: orderHistory, isLoading: isLoadingOrderHistory } = useQuery<OrderResponseDTO[]>({
     queryKey: ["orderHistory"],
     queryFn: async () => {
       const response = await ordersApi.getMyOrderHistory();
-      // Acessa a propriedade 'data' da resposta do Axios e então filtra
       const allOrders = response.data;
-      // Filtra para remover o pedido PENDING do histórico
       return allOrders.filter(order => order.orderStatus !== "PENDING");
     },
     staleTime: 5 * 60 * 1000,
@@ -68,21 +67,26 @@ export default function Orders() {
     },
   });
 
-  // Mutation para finalizar a compra (mudar status de PENDING para PROCESSING/PAID)
   const finalizeOrderMutation = useMutation({
     mutationFn: (orderId: number) =>
-      ordersApi.updateOrderStatus(orderId, OrderStatus.PROCESSING),
-    onSuccess: () => {
-      toast({ title: "Order Placed!", description: "Your order has been successfully placed." });
+      ordersApi.finalizePayment(orderId, selectedMethod!), 
+    onSuccess: (response) => {
+      toast({ 
+        title: "Pedido Finalizado!", 
+        description: "Redirecionando para o pagamento...",
+        variant: "success" 
+      });
+      
+      if (response.data.payment.paymentMethod === PaymentMethod.PIX) {
+          navigate(`/payment/pix/${response.data.id}`);
+      } else if (response.data.payment.paymentUrl) { 
+          window.location.href = response.data.payment.paymentUrl;
+      }
+      
       queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });
-      queryClient.invalidateQueries({ queryKey: ["orderHistory"] });
-      navigate("/orders"); // Opcional: redirecionar para a própria página de orders para ver o histórico
     },
-    onError: (err) => {
-      console.error("Error finalizing order:", err);
-      toast({ title: "Error", description: "Failed to finalize order. Please try again.", variant: "destructive" });
-    },
-  });
+
+});
 
   const handleRemoveItem = (orderId: number, orderItemId: number) => {
     removeItemMutation.mutate({ orderId, orderItemId });
@@ -123,8 +127,8 @@ export default function Orders() {
       <section className="pt-28 pb-12 bg-muted/30 border-b border-border/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="section-label">My Account</span>
-            <h1 className="section-title">My Orders</h1>
+            <span className="section-label">Minha Conta</span>
+            <h1 className="section-title">Meus Pedidos</h1>
           </motion.div>
         </div>
       </section>
@@ -139,7 +143,7 @@ export default function Orders() {
             className="glass-card p-6"
           >
             <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-              <ShoppingBag className="w-6 h-6 text-primary" /> Your Cart
+              <ShoppingBag className="w-6 h-6 text-primary" /> Meu Carrinho
             </h2>
 
             {isLoadingPendingOrder ? (
@@ -184,22 +188,57 @@ export default function Orders() {
                   <span className="text-lg font-bold text-foreground">Total:</span>
                   <span className="text-2xl font-bold text-primary">{formatCurrency(pendingOrder.totalPrice)}</span>
                 </div>
+                <div className="mt-8 space-y-4 border-t border-border/50 pt-6">
+                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
+                    Selecione o Método de Pagamento
+                  </p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {[
+                      { id: PaymentMethod.PIX, label: "Pix", icon: "📱" },
+                      { id: PaymentMethod.CREDIT_CARD, label: "Cartão de Crédito", icon: "💳" },
+                      { id: PaymentMethod.DEBIT_CARD, label: "Cartão de Débito", icon: "🏦" },
+                    ].map((method) => (
+                      <button
+                        key={method.id}
+                        onClick={() => setSelectedMethod(method.id)}
+                        className={cn(
+                          "flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-300",
+                          selectedMethod === method.id
+                            ? "border-primary bg-primary/5 shadow-md"
+                            : "border-border/50 hover:border-primary/50 bg-background"
+                        )}
+                      >
+                        <span className="text-2xl mb-2">{method.icon}</span>
+                        <span className="text-sm font-semibold">{method.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <Button
-                  onClick={handleFinalizeOrder}
-                  disabled={finalizeOrderMutation.isPending || pendingOrder.items.length === 0}
-                  className="w-full mt-6 gap-2"
-                  size="lg"
-                >
-                  <CheckCircle className="w-5 h-5" />
-                  {finalizeOrderMutation.isPending ? "Finalizing Order..." : "Finalize Order"}
-                </Button>
+                    onClick={handleFinalizeOrder}
+                    disabled={finalizeOrderMutation.isPending || !selectedMethod || pendingOrder?.items?.length === 0}
+                    className="w-full mt-6 gap-2"
+                    size="lg"
+                  >
+                    {finalizeOrderMutation.isPending ? (
+                      "Processando..."
+                    ) : !selectedMethod ? (
+                      "Selecione um método para continuar"
+                    ) : (
+                      <>
+                        <CheckCircle className="w-5 h-5" />
+                        Finalizar Compra com {selectedMethod}
+                      </>
+                    )}
+                  </Button>
               </div>
             ) : (
               <div className="text-center py-10">
                 <ShoppingBag className="w-16 h-16 text-muted-foreground mx-auto mb-6 opacity-50" />
-                <p className="text-xl text-muted-foreground font-serif">Your cart is empty.</p>
+                <p className="text-xl text-muted-foreground font-serif">Seu Carrinho Está Vazio.</p>
                 <Button onClick={() => navigate("/products")} className="mt-6">
-                  Start Shopping
+                  Começar as Compras
                 </Button>
               </div>
             )}
@@ -213,7 +252,7 @@ export default function Orders() {
             className="glass-card p-6"
           >
             <h2 className="font-serif text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-              <Clock className="w-6 h-6 text-muted-foreground" /> Order History
+              <Clock className="w-6 h-6 text-muted-foreground" /> Histórico De Pedidos
             </h2>
 
             {isLoadingOrderHistory ? (
@@ -232,7 +271,7 @@ export default function Orders() {
                   >
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-3">
                       <div>
-                        <p className="text-sm text-muted-foreground">Order #{order.id}</p>
+                        <p className="text-sm text-muted-foreground">Pedido #{order.id}</p>
                         <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                           <Clock className="w-3 h-3" />
                           {new Date(order.orderDate).toLocaleDateString()}

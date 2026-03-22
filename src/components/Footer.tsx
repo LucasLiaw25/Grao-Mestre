@@ -8,33 +8,33 @@ export function Footer() {
           <div className="md:col-span-2">
             <h2 className="font-serif text-3xl font-bold tracking-tight mb-6">Grão Mestre.</h2>
             <p className="text-secondary-foreground/70 max-w-sm text-balance leading-relaxed">
-              Elevating the daily ritual. We source, roast, and deliver the world's most extraordinary coffees, directly to your door.
+             Elevando o ritual diário. Nós selecionamos, torramos e entregamos os cafés mais extraordinários do mundo, diretamente à sua porta.
             </p>
           </div>
           <div>
             <h3 className="font-semibold mb-6 tracking-wide uppercase text-sm text-primary">Shop</h3>
             <ul className="space-y-4">
-              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">All Products</Link></li>
-              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Single Origin</Link></li>
-              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Blends</Link></li>
+              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Todos os Produtos</Link></li>
+              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Origem Única</Link></li>
+              <li><Link to="/products" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Misturas</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-6 tracking-wide uppercase text-sm text-primary">Company</h3>
+            <h3 className="font-semibold mb-6 tracking-wide uppercase text-sm text-primary">Compania</h3>
             <ul className="space-y-4">
-              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Our Story</a></li>
-              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Sustainability</a></li>
-              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Contact</a></li>
+              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Nossa História</a></li>
+              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Sustentabilidade</a></li>
+              <li><a href="#" className="text-secondary-foreground/70 hover:text-secondary-foreground transition-colors">Contato</a></li>
             </ul>
           </div>
         </div>
         <div className="border-t border-secondary-foreground/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-secondary-foreground/50">
-            © {new Date().getFullYear()} Grão Mestre. All rights reserved.
+            © {new Date().getFullYear()} Grão Mestre. Todos os direitos reservados.
           </p>
           <div className="flex space-x-6 text-sm">
-            <a href="#" className="text-secondary-foreground/50 hover:text-secondary-foreground transition-colors">Privacy Policy</a>
-            <a href="#" className="text-secondary-foreground/50 hover:text-secondary-foreground transition-colors">Terms of Service</a>
+            <a href="#" className="text-secondary-foreground/50 hover:text-secondary-foreground transition-colors">Política de Privacidade</a>
+            <a href="#" className="text-secondary-foreground/50 hover:text-secondary-foreground transition-colors">Termos de Serviço</a>
           </div>
         </div>
       </div>

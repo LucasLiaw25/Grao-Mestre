@@ -221,8 +221,8 @@ export default function Account() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="section-label">Your Account</span>
-            <h1 className="section-title mb-8">Manage Profile & Addresses</h1>
+            <span className="section-label">Sua Conta</span>
+            <h1 className="section-title mb-8"> Gerenciar Perfil & Endereço</h1>
             <div className="flex flex-wrap gap-4 mt-6">
               {isAdmin && (
                 <Link to="/dashboard/admin-dashboard" className="btn-hero-primary flex items-center gap-2 px-6 py-3 text-base">
@@ -246,10 +246,10 @@ export default function Account() {
           className="glass-card p-8"
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground">My Profile</h2>
+            <h2 className="font-serif text-3xl font-bold text-foreground">Meu Perfil</h2>
             {!isEditingProfile && (
               <Button variant="outline" onClick={() => setIsEditingProfile(true)}>
-                <Pencil className="w-4 h-4 mr-2" /> Edit
+                <Pencil className="w-4 h-4 mr-2" /> Editar
               </Button>
             )}
           </div>
@@ -264,7 +264,7 @@ export default function Account() {
             <form onSubmit={handleProfileSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-muted-foreground mb-2">
-                  Name
+                  Nome
                 </label>
                 <input
                   type="text"
@@ -279,7 +279,7 @@ export default function Account() {
             
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground mb-2">
-                  Phone
+                  Telefone
                 </label>
                 <input
                   type="tel"
@@ -311,7 +311,7 @@ export default function Account() {
                     }}
                     disabled={updateUserMutation.isPending}
                   >
-                    <X className="w-4 h-4 mr-2" /> Cancel
+                    <X className="w-4 h-4 mr-2" /> Cancelar
                   </Button>
                   <Button type="submit" disabled={updateUserMutation.isPending}>
                     {updateUserMutation.isPending ? "Saving..." : <Save className="w-4 h-4 mr-2" />} Save Changes
@@ -330,10 +330,10 @@ export default function Account() {
           className="glass-card p-8"
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground">Change Password</h2>
+            <h2 className="font-serif text-3xl font-bold text-foreground">Trocar de Senha</h2>
             {!isEditingPassword && (
               <Button variant="outline" onClick={() => setIsEditingPassword(true)}>
-                <KeyRound className="w-4 h-4 mr-2" /> Change Password
+                <KeyRound className="w-4 h-4 mr-2" /> Trocar de Senha
               </Button>
             )}
           </div>
@@ -365,7 +365,7 @@ export default function Account() {
                 </div> */}
                 <div>
                   <label htmlFor="newPassword" className="block text-sm font-medium text-muted-foreground mb-2">
-                    New Password
+                    Nova Senha
                   </label>
                   <input
                     type="password"
@@ -380,7 +380,7 @@ export default function Account() {
                 </div>
                 <div>
                   <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Confirm New Password
+                    Confirmar Nova Senha
                   </label>
                   <input
                     type="password"
@@ -404,7 +404,7 @@ export default function Account() {
                     }}
                     disabled={updatePasswordMutation.isPending}
                   >
-                    <X className="w-4 h-4 mr-2" /> Cancel
+                    <X className="w-4 h-4 mr-2" /> Cancelar
                   </Button>
                   <Button type="submit" disabled={updatePasswordMutation.isPending}>
                     {updatePasswordMutation.isPending ? "Updating..." : <Save className="w-4 h-4 mr-2" />} Update Password
@@ -423,11 +423,11 @@ export default function Account() {
           className="glass-card p-8"
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground">My Addresses</h2>
+            <h2 className="font-serif text-3xl font-bold text-foreground">Meu Endereço</h2>
             {/* Condicional para o botão "Add New Address" */}
             {!hasAddresses && !showAddressForm && (
               <Button onClick={handleAddAddressClick} disabled={showAddressForm}>
-                <Plus className="w-4 h-4 mr-2" /> Add New Address
+                <Plus className="w-4 h-4 mr-2" /> Adicionar Novo Endereço
               </Button>
             )}
           </div>
@@ -493,7 +493,7 @@ export default function Account() {
             ) : (
               <div className="text-center py-12 glass-card border-dashed mt-8">
                 <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-                <p className="text-xl text-muted-foreground font-serif">No addresses found. Add your first address!</p>
+                <p className="text-xl text-muted-foreground font-serif">Nenhum endereço encontrado. Cadastre seu endereço!</p>
               </div>
             )
           )}

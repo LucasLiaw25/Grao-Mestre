@@ -31,7 +31,7 @@ export default function AboutUs() {
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-background z-10" />
           <img
-            src="https://plus.unsplash.com/premium_photo-1668472274328-cd239ae3586f?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjR8fGNhZmV0ZXJpYXxlbnwwfHwwfHx8MA%3D%3D"
+            src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNvZmZlZXxlbnwwfHwwfHx8MA%3D%3D"
             alt="Artisanal coffee lab"
             className="w-full h-full object-cover"
           />
@@ -53,9 +53,9 @@ export default function AboutUs() {
             transition={{ duration: 1, delay: 0.4 }}
             className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-primary-foreground mb-8 leading-[1.1]"
           >
-            The Heritage
+            A Herança
             <br />
-            <span className="text-primary-foreground/90 italic">of Taste.</span>
+            <span className="text-primary-foreground/90 italic">da Torra.</span>
           </motion.h1>
 
           <motion.p
@@ -64,7 +64,7 @@ export default function AboutUs() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-lg md:text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-12 font-light leading-relaxed"
           >
-            A legacy forged in the perfect roast, where every bean tells a story of craftsmanship and ethical pursuit.
+           Um legado forjado na torra perfeita, onde cada grão conta uma história de artesanato e busca ética.
           </motion.p>
         </div>
 
@@ -92,13 +92,13 @@ export default function AboutUs() {
               transition={{ duration: 0.8 }}
               className="space-y-6"
             >
-              <span className="section-label">A Chronicle of Coffee</span>
-              <h2 className="section-title">The Grand Master’s Tale</h2>
+              <span className="section-label">Uma Crônica do Café</span>
+              <h2 className="section-title">O Conto do Grande Mestre</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Founded on the belief that coffee is a ritual, not just a drink, The Grand Master began in a small, dedicated roasting lab. Our founder, a master roaster with decades of experience, sought to honor the bean’s origin above all else.
+                Fundado na crença de que o café é um ritual, não apenas uma bebida, o The Grand Master começou em um pequeno laboratório de torrefação dedicado. Nosso fundador, um mestre torrefador com décadas de experiência, buscava honrar a origem do grão acima de tudo.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                We believe the perfect roast is an art form—a meticulous balance between tradition and innovation. From sourcing directly from single-estate farms to custom-profiling each batch, every step is executed with precision and respect. This dedication ensures that the unique terroir of every bean is celebrated in your cup.
+                Acreditamos que o torra perfeito é uma forma de arte—um equilíbrio meticuloso entre tradição e inovação. Desde a obtenção direta de fazendas de propriedade única até a personalização do perfil de cada lote, cada etapa é executada com precisão e respeito. Essa dedicação garante que o terroir único de cada grão seja celebrado em sua xícara.
               </p>
             </motion.div>
             <motion.div
@@ -126,7 +126,7 @@ export default function AboutUs() {
               viewport={{ once: true }}
               className="section-label"
             >
-              Our Philosophy
+              Nossa Filosofia
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -135,14 +135,14 @@ export default function AboutUs() {
               transition={{ duration: 0.6 }}
               className="section-title"
             >
-              The Pillars of Excellence
+              Os Pilares da Excelência
             </motion.h2>
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-              { icon: Scale, title: "Uncompromising Integrity", desc: "We adhere to the highest standards, from ethical sourcing to transparent business practices." },
-              { icon: Compass, title: "Artisanal Precision", desc: "Every roast profile is meticulously crafted to honor the bean’s unique origin and flavor." },
-              { icon: Target, title: "Sustainable Pursuit", desc: "Our direct-trade model ensures fair wages for farmers and environmentally conscious practices." },
+              { icon: Scale, title: "Integridade Inflexível", desc: "Nós aderimos aos mais altos padrões, desde a aquisição ética até práticas comerciais transparentes." },
+              { icon: Compass, title: "Precisão Artesanal", desc: "Cada perfil de torra é meticulosamente elaborado para honrar a origem e o sabor únicos do grão." },
+              { icon: Target, title: "Busca Sustentável", desc: "Nosso modelo de comércio direto garante salários justos para os agricultores e práticas ambientalmente conscientes." },
             ].map((value, i) => (
               <motion.div
                 key={i}
@@ -185,24 +185,24 @@ export default function AboutUs() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-6"
             >
-              <span className="section-label">Meet the Artisans</span>
-              <h2 className="section-title">The Roasting Maestros</h2>
+              <span className="section-label">Conheça os Artesãos</span>
+              <h2 className="section-title">Os Mestres da Torrefação</h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Our team of dedicated roasters are more than technicians; they are artists with a profound understanding of coffee chemistry. Each batch is a testament to their expertise and unwavering commitment to quality.
+                Nossa equipe de torradores dedicados é mais do que técnicos; eles são artistas com um profundo entendimento da química do café. Cada lote é um testemunho de sua experiência e compromisso inabalável com a qualidade.
               </p>
               <div className="grid grid-cols-2 gap-6 pt-6">
                 <div className="flex items-start gap-3">
                     <Award className="w-6 h-6 text-primary mt-1" />
                     <div>
-                        <h4 className="font-semibold text-foreground">Award-Winning Expertise</h4>
-                        <p className="text-sm text-muted-foreground">Certified professionals in cupping and profile roasting.</p>
+                        <h4 className="font-semibold text-foreground">Especialização Premiada</h4>
+                        <p className="text-sm text-muted-foreground">Profissionais certificados em degustação e torra de perfil.</p>
                     </div>
                 </div>
                 <div className="flex items-start gap-3">
                     <Handshake className="w-6 h-6 text-primary mt-1" />
                     <div>
-                        <h4 className="font-semibold text-foreground">Direct Trade Masters</h4>
-                        <p className="text-sm text-muted-foreground">Building lasting relationships with premium single-estate farms.</p>
+                        <h4 className="font-semibold text-foreground">Mestres do Comércio Direto</h4>
+                        <p className="text-sm text-muted-foreground">Construindo relacionamentos duradouros com fazendas de propriedade única premium.</p>
                     </div>
                 </div>
               </div>
@@ -228,13 +228,13 @@ export default function AboutUs() {
               transition={{ duration: 0.6 }}
               className="section-title"
             >
-              Beyond the Bean
+              Além do Grão
             </motion.h2>
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12">
             {[
-                { title: "Direct Trade Sustainability", desc: "By bypassing traditional intermediaries, we ensure farmers are paid a premium price, fostering sustainable agricultural practices and vibrant coffee communities.", image: "https://images.unsplash.com/photo-1596707328221-50e5616b3f71?auto=format&fit=crop&q=80&w=800" },
-                { title: "Artisanal Freshness", desc: "Every order is small-batch roasted and shipped weekly, guaranteeing the peak freshness and complex flavor profiles of the original bean.", image: "https://images.unsplash.com/photo-1579737402927-995f50f75c6d?auto=format&fit=crop&q=80&w=800" },
+                { title: "Sustentabilidade do Comércio Direto", desc: "Ao contornar intermediários tradicionais, garantimos que os agricultores recebam um preço premium, promovendo práticas agrícolas sustentáveis e comunidades cafeeiras vibrantes.", image: "https://media.istockphoto.com/id/2171791440/pt/foto/close-up-of-a-woman-holding-sprout-young-plant-outdoors.webp?a=1&b=1&s=612x612&w=0&k=20&c=ocHcda2BzOEzZGRx5MJihhaveSRrdzrRmbasLC3pt74="},
+                { title: "Frescor Artesanal", desc: "Cada pedido é torrado em pequenos lotes e enviado semanalmente, garantindo a máxima frescura e os perfis de sabor complexos do grão original.", image: "https://plus.unsplash.com/premium_photo-1723924888387-5868b4e28778?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z3Jhb3MlMjBkZSUyMGNhZmV8ZW58MHx8MHx8fDA%3D"},
             ].map((commitment, i) => (
                 <motion.div
                     key={i}
