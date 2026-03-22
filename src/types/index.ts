@@ -190,6 +190,7 @@ export interface UserRegisterRequestDTO {
     name: string;
     phone: string;
     password: string;
+    cpf: string
 }
 
 export interface UserRequestDTO { 
