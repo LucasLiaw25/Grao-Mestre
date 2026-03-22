@@ -18,10 +18,10 @@ export default function Login() {
     setIsLoading(true);
     try {
       await login({ email, password });
-      toast({ title: "Welcome back!", description: "You have signed in successfully." });
+      toast({ title: "Welcome back!", description: "Você logou com sucesso." });
       navigate("/");
     } catch {
-      toast({ title: "Error", description: "Invalid email or password.", variant: "destructive" });
+      toast({ title: "Error", description: "Email ou senha inválido.", variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +37,7 @@ export default function Login() {
       >
         <div className="text-center mb-10">
           <Link to="/" className="font-serif text-3xl font-bold text-foreground">Grão Mestre.</Link>
-          <p className="text-muted-foreground mt-3">Sign in to your account</p>
+          <p className="text-muted-foreground mt-3">Entre na sua conta</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass-card p-8 space-y-6">
@@ -69,8 +69,8 @@ export default function Login() {
         </form>
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-primary font-medium hover:underline">Create one</Link>
+          Não tem uma conta?{" "}
+          <Link to="/register" className="text-primary font-medium hover:underline">Crie uma</Link>
         </p>
       </motion.div>
     </div>

@@ -42,7 +42,7 @@ export function Navbar() {
       };
 
   const navLinks = [
-    { to: "/", label: "Home" },
+    { to: "/home", label: "Home" },
     { to: "/products", label: "Produtos" },
     { to: "/about", label: "Sobre Nós" }, 
   ];
