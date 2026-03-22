@@ -182,7 +182,7 @@ export default function Register() {
               placeholder="••••••••"
             />
             {confirmPassword && password !== confirmPassword && (
-              <span className="text-[11px] text-red-500 mt-1 block">As senhas não coincidem</span>
+              <span className="text-[11px] text-red-500 mt-1 block">As senhas precisam ser iguais</span>
             )}
           </div>
 
