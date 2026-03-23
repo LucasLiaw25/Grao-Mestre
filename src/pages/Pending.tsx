@@ -41,7 +41,7 @@ export default function OrderPending() {
                 <Link to="/orders">Ver meus pedidos</Link>
               </Button>
               <Button asChild variant="ghost" className="gap-2">
-                <Link to="/"><Coffee className="w-4 h-4" /> Voltar ao Início</Link>
+                <Link to="/home"><Coffee className="w-4 h-4" /> Voltar ao Início</Link>
               </Button>
             </div>
           </motion.div>

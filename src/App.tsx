@@ -24,9 +24,9 @@ import ExpenseManagement from "./pages/ExpenseManagement";
 import DailyOrderMonitor from "./pages/DailyOrderMonitor";
 import AboutUs from "./pages/AboutUs";
 import { DashboardLayout } from "./pages/DashboardLayout";
-import OrderSuccess from "./pages/Sucess";
-import OrderFailure from "./pages/Failure";
 import OrderPending from "./pages/Pending";
+import OrderFailure from "./pages/Failure";
+import OrderSuccess from "./pages/Sucess";
 
 const queryClient = new QueryClient();
 
@@ -63,20 +63,10 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/home" element={<Home />} />
 
-        <Route path="/" element={
-            <ProtectedRoute>
-              <Login />
-            </ProtectedRoute>
-          }  />
-        <Route path="/register" element={
-            <ProtectedRoute>
-              <Register/>
-            </ProtectedRoute>
-          }  />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/about" element={<AboutUs />} />
-        
 
         <Route 
           path="/account" 
@@ -87,23 +77,15 @@ const AppRoutes = () => {
           } 
         />
         <Route 
-          path="/orders" 
+          path="/products/:id" 
           element={
             <ProtectedRoute>
-              <Orders />
+              <ProductDetail />
             </ProtectedRoute>
           } 
         />
         <Route 
-          path="/orders/sucess" 
-          element={
-            <ProtectedRoute>
-              <OrderSuccess />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/orders/failure" 
+          path="/order/failure" 
           element={
             <ProtectedRoute>
               <OrderFailure />
@@ -111,10 +93,26 @@ const AppRoutes = () => {
           } 
         />
         <Route 
-          path="/orders/pending" 
+          path="/order/success" 
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/order/pending" 
           element={
             <ProtectedRoute>
               <OrderPending />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/orders" 
+          element={
+            <ProtectedRoute>
+              <Orders />
             </ProtectedRoute>
           } 
         />
