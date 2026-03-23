@@ -22,12 +22,12 @@ export function Sidebar({ className }: SidebarProps) {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Fecha o sidebar ao navegar em mobile
+  // Fecha o sidebar automaticamente ao navegar (clicar num link)
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Fecha ao pressionar Escape
+  // Fecha ao pressionar a tecla Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsOpen(false);
@@ -36,7 +36,7 @@ export function Sidebar({ className }: SidebarProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Trava o scroll do body quando o sidebar estiver aberto em mobile
+  // Bloqueia o scroll do fundo quando o menu mobile está aberto
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -58,7 +58,6 @@ export function Sidebar({ className }: SidebarProps) {
     { to: "/dashboard/expense-management", label: "Expense", icon: Wallet },
   ];
 
-  // Componente interno com tipagem corrigida para aceitar className
   const SidebarContent = ({ innerClassName }: { innerClassName?: string }) => (
     <aside
       className={cn(
@@ -74,6 +73,7 @@ export function Sidebar({ className }: SidebarProps) {
           </span>
         </Link>
 
+        {/* Botão para fechar (X) visível apenas no mobile */}
         <button
           onClick={() => setIsOpen(false)}
           className="lg:hidden p-1.5 rounded-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors border border-transparent hover:border-border/40"
@@ -117,39 +117,39 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <>
-      {/* Botão Hambúrguer Mobile — Visível apenas quando o sidebar está fechado */}
+      {/* Botão Hambúrguer (Ícone de barras) — Fixo no topo esquerdo em mobile */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="lg:hidden fixed top-5 left-5 z-40 p-2.5 rounded-sm bg-card border border-border/60 text-foreground shadow-md hover:bg-muted transition-all active:scale-95"
+          className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-md bg-card border border-border/60 text-foreground shadow-lg hover:bg-muted transition-all active:scale-95"
           aria-label="Abrir menu"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-6 h-6" />
         </button>
       )}
 
-      {/* Sidebar Desktop — Fixo (sticky) e não cresce com o scroll */}
+      {/* Versão Desktop (Sempre visível em ecrãs grandes) */}
       <div className="hidden lg:flex lg:flex-col lg:w-64 lg:h-screen lg:sticky lg:top-0 lg:z-30">
         <SidebarContent />
       </div>
 
-      {/* Drawer Mobile — Overlay escuro */}
+      {/* Overlay (Fundo escuro/Blur ao abrir o menu mobile) */}
       <div
         className={cn(
-          "lg:hidden fixed inset-0 z-[60] bg-background/60 backdrop-blur-md transition-opacity duration-500",
+          "lg:hidden fixed inset-0 z-[60] bg-background/40 backdrop-blur-sm transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Drawer Mobile — Painel deslizante */}
+      {/* Painel lateral mobile (Drawer) que desliza da esquerda */}
       <div
         className={cn(
-          "lg:hidden fixed top-0 left-0 z-[70] h-full w-72 transform transition-transform duration-500 ease-in-out shadow-2xl",
+          "lg:hidden fixed top-0 left-0 z-[70] h-full w-72 transform transition-transform duration-300 ease-in-out shadow-2xl",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <SidebarContent innerClassName="w-full border-none" />
+        <SidebarContent innerClassName="w-full border-none h-full" />
       </div>
     </>
   );

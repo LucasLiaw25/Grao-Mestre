@@ -2,12 +2,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ShoppingBag, Menu, X, User, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query"; // Importar useQuery
 import { ordersApi } from "@/lib/api"; // Importar ordersApi
 import type { OrderResponseDTO, OrderStatus } from "@/types"; // Importar tipos
+import { Home, Info, Menu, Package, ShoppingBag, User, X } from "lucide-react";
+
 
 export function Navbar() {
   const location = useLocation();
@@ -72,7 +73,7 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Link to="/" className="flex-shrink-0 group">
+            <Link to="/home" className="flex-shrink-0 group">
               <span className="font-serif text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                 Grão Mestre.
               </span>
@@ -110,7 +111,7 @@ export function Navbar() {
                 </Link>
               ) : (
                 <Link
-                  to="/login"
+                  to="/"
                   className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium"
                 >
                   <User className="w-4 h-4" />
@@ -156,7 +157,7 @@ export function Navbar() {
         </div>
       </motion.header>
 
-      <motion.div
+                <motion.div
         initial={false}
         animate={isMobileMenuOpen ? "open" : "closed"}
         variants={{
@@ -166,29 +167,49 @@ export function Navbar() {
         className="fixed top-20 left-0 right-0 z-40 bg-background border-b shadow-xl md:hidden overflow-hidden"
       >
         <div className="px-4 pt-2 pb-6 space-y-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-4 text-base font-medium text-foreground hover:bg-muted rounded-xl"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {/* Links de Navegação com Ícones */}
+          <Link
+            to="/home"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-4 text-base font-medium text-foreground hover:bg-muted rounded-xl"
+          >
+            <Home className="w-5 h-5 text-muted-foreground" />
+            Home
+          </Link>
+          <Link
+            to="/products"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-4 text-base font-medium text-foreground hover:bg-muted rounded-xl"
+          >
+            <Package className="w-5 h-5 text-muted-foreground" />
+            Produtos
+          </Link>
+          <Link
+            to="/about"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center gap-3 px-3 py-4 text-base font-medium text-foreground hover:bg-muted rounded-xl"
+          >
+            <Info className="w-5 h-5 text-muted-foreground" />
+            Sobre Nós
+          </Link>
+
+          {/* Seção de Conta/Autenticação */}
           {isAuthenticated ? (
-            <button
-              onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-              className="w-full text-left px-3 py-4 text-base font-medium text-destructive hover:bg-destructive/10 rounded-xl"
+            <Link
+              to="/account"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-3 py-4 text-base font-medium text-primary hover:bg-primary/10 rounded-xl"
             >
-              Sign Out
-            </button>
+              <User className="w-5 h-5" />
+              Minha Conta
+            </Link>
           ) : (
             <Link
               to="/login"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block px-3 py-4 text-base font-medium text-primary hover:bg-primary/10 rounded-xl"
+              className="flex items-center gap-3 px-3 py-4 text-base font-medium text-primary hover:bg-primary/10 rounded-xl"
             >
+              <User className="w-5 h-5" />
               Sign In
             </Link>
           )}
