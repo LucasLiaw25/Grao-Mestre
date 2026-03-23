@@ -188,7 +188,7 @@ export default function Account() {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // Redireciona para a página de login após o logout
+    navigate("/"); // Redireciona para a página de login após o logout
   };
 
   if (isLoadingAuth || isLoadingUser) {

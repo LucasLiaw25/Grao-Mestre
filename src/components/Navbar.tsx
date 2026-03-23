@@ -205,7 +205,7 @@ export function Navbar() {
             </Link>
           ) : (
             <Link
-              to="/login"
+              to="/"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-3 px-3 py-4 text-base font-medium text-primary hover:bg-primary/10 rounded-xl"
             >
