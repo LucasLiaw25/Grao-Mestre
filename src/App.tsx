@@ -24,6 +24,9 @@ import ExpenseManagement from "./pages/ExpenseManagement";
 import DailyOrderMonitor from "./pages/DailyOrderMonitor";
 import AboutUs from "./pages/AboutUs";
 import { DashboardLayout } from "./pages/DashboardLayout";
+import OrderSuccess from "./pages/Sucess";
+import OrderPending from "./pages/Pending";
+import OrderFailure from "./pages/Failure";
 
 const queryClient = new QueryClient();
 
@@ -56,15 +59,19 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredScope
 const AppRoutes = () => {
   return (
     <>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
       <Navbar />
+
       <Routes>
         <Route path="/home" element={<Home />} />
-
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/about" element={<AboutUs />} />
+        <Route path="/order/success" element={<OrderSuccess />} />
+        <Route path="/order/pending" element={<OrderPending />} />
+        <Route path="/order/failure" element={<OrderFailure />} />
 
         <Route 
           path="/account" 

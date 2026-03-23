@@ -162,6 +162,7 @@ export default function UserManagement() {
     email: "",
     name: "",
     phone: "",
+    cpf: "",
     active: true,
     scopeIds: [],
   });
@@ -350,7 +351,7 @@ export default function UserManagement() {
   // ── Modal helpers ─────────────────────────────────────────────────────────────
   const openCreateUserModal = () => {
     setEditingUser(null);
-    setUserForm({ email: "", name: "", phone: "", active: true, scopeIds: [] });
+    setUserForm({ email: "", name: "", phone: "", active: true, scopeIds: [], cpf: "" });
     setUserPassword("");
     setIsUserFormModalOpen(true);
   };
@@ -363,6 +364,7 @@ export default function UserManagement() {
       phone: user.phone,
       active: user.active,
       scopeIds: user.scopes.length > 0 ? [user.scopes[0].id] : [],
+      cpf: user.cpf,
     });
     setUserPassword("");
     setIsUserFormModalOpen(true);
@@ -371,7 +373,7 @@ export default function UserManagement() {
   const closeUserFormModal = () => {
     setIsUserFormModalOpen(false);
     setEditingUser(null);
-    setUserForm({ email: "", name: "", phone: "", active: true, scopeIds: [] });
+    setUserForm({ email: "", name: "", phone: "", active: true, scopeIds: [], cpf: "" });
     setUserPassword("");
   };
 

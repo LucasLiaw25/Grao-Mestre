@@ -74,6 +74,7 @@ export interface UserResponseDTO {
     registerDate: string;
     active: boolean;
     scopes: ScopeResponseDTO[];
+    cpf: string;
 }
 
 export interface AuthResponseDTO {
