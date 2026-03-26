@@ -145,7 +145,8 @@ export const categoriesApi = {
 
 export const ordersApi = {
     create: (data: OrderRequestDTO) => apiClient.post<OrderResponseDTO>("/orders", data),
-    getMyOrderHistory: () => apiClient.get<OrderResponseDTO[]>("/orders/my"),
+    getMyOrderHistory: (params?: { page?: number; size?: number; sort?: string }) => 
+    apiClient.get<PageableResponse<OrderResponseDTO>>("/orders/my", { params }),
     getMyOrderDetails: (orderId: number) => apiClient.get<OrderResponseDTO>(`/orders/my/${orderId}`),
     getMyOrdersByStatus: (status: OrderStatus) => apiClient.get<OrderResponseDTO[]>(`/orders/my/status/${status}`),
     finalizePayment: (orderId: number, paymentMethod: PaymentMethod) => 
