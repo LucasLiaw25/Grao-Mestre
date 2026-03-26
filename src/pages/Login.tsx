@@ -19,7 +19,7 @@ export default function Login() {
     try {
       await login({ email, password });
       toast({ title: "Welcome back!", description: "Você logou com sucesso." });
-      navigate("/home");
+      navigate("/");
     } catch {
       toast({ title: "Error", description: "Email ou senha inválido.", variant: "destructive" });
     } finally {

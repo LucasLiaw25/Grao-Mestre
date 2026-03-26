@@ -43,7 +43,7 @@ export function Navbar() {
       };
 
   const navLinks = [
-    { to: "/home", label: "Home" },
+    { to: "/", label: "Home" },
     { to: "/products", label: "Produtos" },
     { to: "/about", label: "Sobre Nós" }, 
   ];
@@ -73,7 +73,7 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <Link to="/home" className="flex-shrink-0 group">
+            <Link to="/" className="flex-shrink-0 group">
               <span className="font-serif text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">
                 Grão Mestre.
               </span>
@@ -111,7 +111,7 @@ export function Navbar() {
                 </Link>
               ) : (
                 <Link
-                  to="/"
+                  to="/login"
                   className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium"
                 >
                   <User className="w-4 h-4" />
@@ -169,7 +169,7 @@ export function Navbar() {
         <div className="px-4 pt-2 pb-6 space-y-1">
           {/* Links de Navegação com Ícones */}
           <Link
-            to="/home"
+            to="/"
             onClick={() => setIsMobileMenuOpen(false)}
             className="flex items-center gap-3 px-3 py-4 text-base font-medium text-foreground hover:bg-muted rounded-xl"
           >

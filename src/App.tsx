@@ -41,14 +41,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredScope
 
   if (isLoading) return null;
 
-  if (!isAuthenticated) return <Navigate to="/" replace />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
   if (requiredScope) {
     // Verifica se o nome "ADMIN" está presente no array de objetos de scopes
     const hasRequiredScope = user?.scopes.some(s => s.name === requiredScope);
     
     if (!hasRequiredScope) {
-      return <Navigate to="/" replace />;
+      return <Navigate to="/login" replace />;
     }
   }
 
@@ -61,9 +61,9 @@ const AppRoutes = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/about" element={<AboutUs />} />

@@ -67,25 +67,29 @@ export default function Orders() {
     },
   });
 
-  const finalizeOrderMutation = useMutation({
-    mutationFn: (orderId: number) =>
-      ordersApi.finalizePayment(orderId, selectedMethod!), 
-    onSuccess: (response) => {
-      toast({ 
-        title: "Pedido Finalizado!", 
-        description: "Redirecionando para o pagamento...",
-        variant: "success" 
-      });
-      
-      if (response.data.payment.paymentMethod === PaymentMethod.PIX) {
-          navigate(`/payment/pix/${response.data.id}`);
-      } else if (response.data.payment.paymentUrl) { 
-          window.location.href = response.data.payment.paymentUrl;
-      }
-      
-      queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });
-    },
+const finalizeOrderMutation = useMutation({
+  mutationFn: (orderId: number) =>
+    ordersApi.finalizePayment(orderId, selectedMethod!), 
+  onSuccess: (response) => {
+    const checkoutUrl = response.data.payment.paymentUrl;
 
+    if (checkoutUrl) {
+      toast({ 
+        title: "Pedido Gerado!", 
+        description: "Redirecionando para o ambiente de pagamento...",
+        variant: "success",
+      });
+      window.location.href = checkoutUrl;
+    } else {
+      toast({ 
+        title: "Erro no Checkout", 
+        description: "Não foi possível gerar o link de pagamento.",
+        variant: "destructive",
+      });
+    }
+    
+    queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });
+  },
 });
 
   const handleRemoveItem = (orderId: number, orderItemId: number) => {
@@ -95,7 +99,6 @@ export default function Orders() {
   const handleUpdateQuantity = (orderId: number, orderItemId: number, currentQuantity: number, change: number) => {
     const newQuantity = currentQuantity + change;
     if (newQuantity < 1) {
-      // Se a quantidade for menor que 1, remove o item
       handleRemoveItem(orderId, orderItemId);
     } else {
       updateQuantityMutation.mutate({ orderId, orderItemId, quantity: newQuantity });

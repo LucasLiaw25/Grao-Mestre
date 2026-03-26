@@ -109,15 +109,6 @@ export interface OrderItemResponseDTO {
     subtotal: number; // BigDecimal no Java -> number no TypeScript
 }
 
-export interface PaymentResponseDTO {
-    id: number;
-    orderId: number;
-    paymentMethod: PaymentMethod;
-    paymentStatus: PaymentStatus;
-    txId: string;
-    totalPrice: number; 
-}
-
 export interface OrderResponseDTO {
     id: number;
     userId: number;

@@ -206,9 +206,8 @@ export default function Account() {
   }
 
   if (!authUser) {
-    // Se o usuário não estiver autenticado, redireciona para o login
     navigate("/login");
-    return null; // Ou um spinner/mensagem de carregamento
+    return null;
   }
 
   return (

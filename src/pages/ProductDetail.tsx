@@ -91,11 +91,12 @@ export default function ProductDetail() {
   const handleAddToCart = async () => {
     if (!product || !isAuthenticated || !user?.id) {
       toast({ title: "Error", description: "Please log in to add products to your cart.", variant: "destructive" });
-      navigate("/login"); // Redireciona para login se não estiver autenticado
+      navigate("/login"); 
       return;
     }
 
     setIsAddingToCart(true);
+    navigate("/products"); 
 
     const orderItem: OrderItemRequestDTO = {
       productId: productId,
@@ -103,10 +104,8 @@ export default function ProductDetail() {
     };
 
     if (pendingOrder) {
-      // Se já existe um pedido PENDING, adiciona o item a ele
       addItemToExistingOrderMutation.mutate({ orderId: pendingOrder.id, item: orderItem });
     } else {
-      // Se não existe um pedido PENDING, cria um novo
       createOrderMutation.mutate(orderItem);
     }
   };
