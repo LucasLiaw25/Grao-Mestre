@@ -1,150 +1,338 @@
- @PostMapping("/change-password/{email}")
-    public void changePasswordEmail(@PathVariable String email){
-        userService.changePassword(email);
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 25% 97%;
+    --foreground: 25 30% 12%;
+
+    --card: 30 20% 95%;
+    --card-foreground: 25 30% 12%;
+
+    --popover: 30 25% 97%;
+    --popover-foreground: 25 30% 12%;
+
+    --primary: 25 60% 38%;
+    --primary-foreground: 40 30% 96%;
+
+    --secondary: 25 15% 18%;
+    --secondary-foreground: 40 20% 90%;
+
+    --muted: 30 15% 90%;
+    --muted-foreground: 25 10% 45%;
+
+    --accent: 35 40% 85%;
+    --accent-foreground: 25 30% 12%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 25 60% 38%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 30 20% 95%;
+    --sidebar-foreground: 25 15% 30%;
+    --sidebar-primary: 25 60% 38%;
+    --sidebar-primary-foreground: 40 30% 96%;
+    --sidebar-accent: 30 15% 90%;
+    --sidebar-accent-foreground: 25 15% 30%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 25 60% 38%;
+
+    /* Custom tokens */
+    --coffee-warm: 30 40% 92%;
+    --coffee-cream: 38 35% 95%;
+    --coffee-dark: 25 30% 12%;
+    --coffee-gold: 38 70% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .btn-hero-primary {
+    @apply px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full 
+           hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all 
+           shadow-xl inline-flex items-center justify-center gap-2;
+    box-shadow: 0 10px 30px -10px hsl(var(--primary) / 0.4);
+  }
+
+  .btn-hero-ghost {
+    @apply px-8 py-4 font-semibold rounded-full transition-all 
+           inline-flex items-center justify-center;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+  }
+  .btn-hero-ghost:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .section-label {
+    @apply text-primary font-semibold tracking-[0.15em] uppercase text-sm mb-3 block;
+  }
+
+  .section-title {
+    @apply font-serif text-4xl md:text-5xl font-bold text-foreground;
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50 rounded-2xl;
+  }
+}
+
+@layer utilities {
+  div[data-lovable-badge],
+  a[href*="lovable.dev"],
+  .lovable-badge {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "@/hooks/use-auth"; 
+import { Navbar } from "@/components/Navbar";
+
+// Importação das suas páginas
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Orders from "./pages/Orders";
+import NotFound from "./pages/NotFound";
+import ProductManagement from "./pages/ProductManagement";
+import Account from "./pages/Account";
+import UserManagement from "./pages/UserManagement";
+import CategoryManagement from "./pages/CategoryManagement";
+import OrderManagement from "./pages/OrderManagement";
+import FinancialReport from "./pages/FinancialReport";
+import ExpenseManagement from "./pages/ExpenseManagement";
+import DailyOrderMonitor from "./pages/DailyOrderMonitor";
+import AboutUs from "./pages/AboutUs";
+import { DashboardLayout } from "./pages/DashboardLayout";
+import OrderPending from "./pages/Pending";
+import OrderFailure from "./pages/Failure";
+import OrderSuccess from "./pages/Sucess";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ChangePassword";
+
+const queryClient = new QueryClient();
+
+// --- COMPONENTE DE PROTEÇÃO DE ROTA ---
+interface ProtectedRouteProps {
+  children: React.ReactNode;
+  requiredScope?: string; 
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredScope }) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  if (isLoading) return null;
+
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  if (requiredScope) {
+    // Verifica se o nome "ADMIN" está presente no array de objetos de scopes
+    const hasRequiredScope = user?.scopes.some(s => s.name === requiredScope);
+    
+    if (!hasRequiredScope) {
+      return <Navigate to="/login" replace />;
     }
+  }
 
-    @PutMapping("/password")
-    public ResponseEntity<UserResponseDTO> updateUserPassword(@RequestParam String token, @RequestBody Map<String, String> passwordMap) {
-        String newPassword = passwordMap.get("newPassword");
-        return ResponseEntity.ok(userService.updateUserPassword(token, newPassword));
-    }
-public void sendChangePasswordEmail(String toEmail, String changePasswordLink) {
-        Email from = new Email(fromEmail);
-        String subject = "Troque sua senha - Grão Mestre";
-        Email to = new Email(toEmail);
+  return <>{children}</>;
+};
 
-        String htmlContent = buildChangePasswordEmailHtml(changePasswordLink);
-        Content content = new Content("text/html", htmlContent);
+// --- GERENCIADOR DE ROTAS ---
+const AppRoutes = () => {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/forgot-password"element={<ForgotPassword/>} />
+        <Route path="/change-password" element={<ResetPassword />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/about" element={<AboutUs />} />
 
-        Mail mail = new Mail(from, subject, to, content);
-        SendGrid sg = new SendGrid(sendGridApiKey);
-        Request request = new Request();
+        <Route 
+          path="/account" 
+          element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/products/:id" 
+          element={
+            <ProtectedRoute>
+              <ProductDetail />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/order/failure" 
+          element={
+            <ProtectedRoute>
+              <OrderFailure />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/order/success" 
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/order/pending" 
+          element={
+            <ProtectedRoute>
+              <OrderPending />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/orders" 
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/payment/pix/:id" 
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          } 
+        />
 
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute requiredScope="ADMIN">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DashboardOverview />} />
+          <Route path="user-management" element={<UserManagement />} />
+          <Route path="admin-dashboard" element={<DailyOrderMonitor />} />
+          <Route path="category-management" element={<CategoryManagement />} />
+          <Route path="product-management" element={<ProductManagement />} />
+          <Route path="order-management" element={<OrderManagement />} />
+          <Route path="expense-management" element={<ExpenseManagement />} />
+          <Route path="financial-report" element={<FinancialReport />} />
+        </Route>
 
-            Response response = sg.api(request);
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
 
-            if (response.getStatusCode() >= 400) {
-                System.err.println("Erro SendGrid API: " + response.getBody());
-                throw new RuntimeException("Falha no envio via API SendGrid");
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException("Erro de rede ao contactar SendGrid API", ex);
-        }
-    }
+function DashboardOverview() {
+  return (
+    <div className="p-8">
+      <h1 className="font-serif text-3xl font-bold text-foreground mb-6">Painel de Controle</h1>
+      <p className="text-muted-foreground">
+        Bem-vindo! Utilize a barra lateral para gerenciar usuários, produtos e relatórios.
+      </p>
+    </div>
+  );
+}
 
-    private String buildChangePasswordEmailHtml(String changePasswordLink) {
-        String year = String.valueOf(java.time.Year.now().getValue());
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <AuthProvider> 
+          <AppRoutes />
+        </AuthProvider>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
-        return """
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <body style="margin: 0; padding: 0; background-color: #fafaf9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 40px auto;">
-                    <tr>
-                        <td style="padding: 20px;">
-                            <!-- Card Principal -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff; border: 1px solid #e7e5e4; border-radius: 16px; overflow: hidden;">
-                                <!-- Header -->
-                                <tr>
-                                    <td align="center" style="padding: 40px 20px 24px 20px; border-bottom: 1px solid #f5f5f4;">
-                                        <p style="margin: 0 0 6px 0; color: #78716c; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;">
-                                            Painel Administrativo
-                                        </p>
-                                        <h1 style="margin: 0; color: #1c1917; font-size: 28px; font-family: Georgia, 'Times New Roman', serif; font-weight: bold;">
-                                            Grão Mestre
-                                        </h1>
-                                    </td>
-                                </tr>
-
-                                <!-- Conteúdo -->
-                                <tr>
-                                    <td style="padding: 32px 40px;">
-                                        <h2 style="margin: 0 0 16px 0; color: #1c1917; font-size: 18px; font-family: Georgia, 'Times New Roman', serif;">Olá,</h2>
-                                        <p style="margin: 0 0 24px 0; color: #44403c; font-size: 15px; line-height: 1.6;">
-                                            Precisa redefinir sua senha?. Para alterar sua senha  do <strong>Grão Mestre</strong>, por favor, clique no botão abaixo.
-                                        </p>
-
-                                        <!-- Botão -->
-                                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 32px auto;">
-                                            <tr>
-                                                <td align="center" style="background-color: #292524; border-radius: 12px;">
-                                                    <a href="__LINK__" target="_blank" style="display: inline-block; padding: 14px 32px; font-size: 14px; color: #ffffff; text-decoration: none; font-weight: bold;">
-                                                        Redefinir a Senha
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-
-                                       
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <!-- Footer -->
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" style="padding: 24px 20px; color: #a8a29e; font-size: 12px;">
-                                        <p style="margin: 0 0 8px 0;">&copy; __YEAR__ Grão Mestre. Todos os direitos reservados.</p>
-                                        <p style="margin: 0;">
-                                            <a href="http://localhost:3000" style="color: #78716c; text-decoration: none; font-weight: bold;">Acessar Sistema</a>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </body>
-            </html>
-            """
-                .replace("__LINK__", changePasswordLink)
-                .replace("__YEAR__", year);
-    }
-     public void changePassword(String userEmail){
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado"));
-
-        verificationTokenRepository.findByUser(user)
-                .ifPresent(token-> verificationTokenRepository.delete(token));
-
-        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24);
-        String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken(token, user, expiryDate);
-        verificationTokenRepository.save(verificationToken);
-
-        String link = fronUrl + "/change-password?token=" + token;
-        emailService.sendChangePasswordEmail(user.getEmail(), link);
-    }
-
-    @Transactional
-    public UserResponseDTO updateUserPassword(String token, String newPassword) {
-        VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new IllegalArgumentException("Token de ativação inválido."));
-
-        User user = userRepository.findById(verificationToken.getUser().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID: " + verificationToken.getUser().getId()));
-
-        Optional<VerificationToken> existToken = verificationTokenRepository.findByUser(user);
-        if (existToken.isPresent()){
-            VerificationToken foundedToken = existToken.get();
-            verificationTokenRepository.delete(foundedToken);
-        }
-
-        if (newPassword == null || newPassword.trim().isEmpty() || newPassword.length() < 6) {
-            throw new BadCredentialsException("A nova senha deve ter no mínimo 6 caracteres.");
-        }
-
-        if (LocalDateTime.now().isAfter(verificationToken.getExpiryDate())){
-            verificationTokenRepository.delete(verificationToken);
-            throw new ConflitException("Token expirado");
-        }
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-        user = userRepository.save(user);
-        verificationTokenRepository.deleteByUser(user);
-        return UserMapper.toResponseDTO(user);
-    }
+export default App;

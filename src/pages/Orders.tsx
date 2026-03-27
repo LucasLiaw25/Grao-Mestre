@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ordersApi } from "@/lib/api";
 import { formatCurrency } from "@/lib/format";
 import { Footer } from "@/components/Footer";
-import { Package, Clock, ShoppingBag, CreditCard, QrCode } from "lucide-react";
+import { Package, Clock, ShoppingBag, CreditCard, QrCode, Minus, Plus, Trash2 } from "lucide-react";
 import { OrderResponseDTO, OrderStatus, PaymentMethod, PageableResponse } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -56,6 +56,48 @@ export default function Orders() {
 
   const orderHistory = ordersPage?.content || [];
   const totalPages = ordersPage?.totalPages || 0;
+
+  // Mutation: Remover Item
+  const removeItemMutation = useMutation({
+    mutationFn: ({ orderId, orderItemId }: { orderId: number; orderItemId: number }) =>
+      ordersApi.removeItemFromOrder(orderId, orderItemId),
+    onSuccess: () => {
+      toast({ title: "Item Removido", description: "Produto removido do seu carrinho." });
+      queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });
+      queryClient.invalidateQueries({ queryKey: ["orderHistory"] });
+    },
+    onError: (err) => {
+      console.error("Erro ao remover item:", err);
+      toast({ title: "Erro", description: "Falha ao remover item. Tente novamente.", variant: "destructive" });
+    },
+  });
+
+  // Mutation: Atualizar Quantidade
+  const updateQuantityMutation = useMutation({
+    mutationFn: ({ orderId, orderItemId, quantity }: { orderId: number; orderItemId: number; quantity: number }) =>
+      ordersApi.updateOrderItemQuantity(orderId, orderItemId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["pendingOrder"] });
+    },
+    onError: (err) => {
+      console.error("Erro ao atualizar quantidade:", err);
+      toast({ title: "Erro", description: "Falha ao atualizar quantidade. Tente novamente.", variant: "destructive" });
+    },
+  });
+
+  // Handlers para os botões do carrinho
+  const handleRemoveItem = (orderId: number, orderItemId: number) => {
+    removeItemMutation.mutate({ orderId, orderItemId });
+  };
+
+  const handleUpdateQuantity = (orderId: number, orderItemId: number, currentQuantity: number, change: number) => {
+    const newQuantity = currentQuantity + change;
+    if (newQuantity < 1) {
+      handleRemoveItem(orderId, orderItemId);
+    } else {
+      updateQuantityMutation.mutate({ orderId, orderItemId, quantity: newQuantity });
+    }
+  };
 
   // Mutation: Finalizar Pagamento
   const finalizeOrderMutation = useMutation({
@@ -111,16 +153,47 @@ export default function Orders() {
               <div className="space-y-6">
                 <div className="divide-y divide-border/50">
                   {pendingOrder.items.map((item) => (
-                    <div key={item.id} className="py-4 flex justify-between items-center">
-                      <div>
+                    <div key={item.id} className="py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                      <div className="flex-1">
                         <p className="font-medium text-foreground">{item.productName}</p>
                         <p className="text-sm text-muted-foreground">
-                          Quantidade: {item.quantity} x {formatCurrency(item.priceAtTime)}
+                          {formatCurrency(item.priceAtTime)} cada
                         </p>
                       </div>
-                      <span className="font-semibold text-foreground">
-                        {formatCurrency(item.subtotal)}
-                      </span>
+
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleUpdateQuantity(pendingOrder.id, item.id, item.quantity, -1)}
+                            disabled={removeItemMutation.isPending || updateQuantityMutation.isPending}
+                            className="p-1 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="w-6 text-center font-semibold text-foreground">{item.quantity}</span>
+                          <button
+                            onClick={() => handleUpdateQuantity(pendingOrder.id, item.id, item.quantity, 1)}
+                            disabled={removeItemMutation.isPending || updateQuantityMutation.isPending}
+                            className="p-1 hover:bg-muted rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        <span className="font-semibold text-foreground min-w-[80px] text-right">
+                          {formatCurrency(item.subtotal)}
+                        </span>
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleRemoveItem(pendingOrder.id, item.id)}
+                          disabled={removeItemMutation.isPending || updateQuantityMutation.isPending}
+                          className="text-destructive hover:bg-destructive/10 h-8 w-8 ml-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -247,7 +320,7 @@ export default function Orders() {
             ) : (
               <div className="text-center py-10">
                 <Package className="w-16 h-16 text-muted-foreground mx-auto mb-6 opacity-50" />
-                <p className="text-xl text-muted-foreground font-serif">No past orders found.</p>
+                <p className="text-xl text-muted-foreground font-serif">Nenhum pedido anterior encontrado.</p>
               </div>
             )}
           </motion.div>

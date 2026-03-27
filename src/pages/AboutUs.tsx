@@ -1,6 +1,6 @@
 // src/pages/AboutUs.tsx
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Scale, Heart, Compass, Target, Clock4, Award, Handshake } from "lucide-react";
+import { Scale, Compass, Target, Clock4, Award, Handshake } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 export default function AboutUs() {

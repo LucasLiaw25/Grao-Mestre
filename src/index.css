@@ -101,10 +101,12 @@
 }
 
 @layer utilities {
-  .font-serif {
-    font-family: 'Playfair Display', serif;
-  }
-  .font-sans {
-    font-family: 'DM Sans', sans-serif;
+  div[data-lovable-badge],
+  a[href*="lovable.dev"],
+  .lovable-badge {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 }

@@ -26,8 +26,7 @@ export default function ResetPassword() {
         description: "Token de redefinição de senha não encontrado.",
         variant: "destructive",
       });
-      // Opcional: Redirecionar após um curto período
-      // setTimeout(() => navigate("/forgot-password"), 3000);
+    
     }
   }, [token, toast, navigate]);
 
@@ -71,7 +70,7 @@ export default function ResetPassword() {
     try {
       await usersApi.updatePasswordWithToken(token, newPassword);
       toast({ title: "Sucesso!", description: "Sua senha foi redefinida com sucesso. Faça login com a nova senha." });
-      navigate("/"); // Redireciona para a página de login
+      navigate("/login"); 
     } catch (error: any) {
       console.error("Erro ao redefinir senha:", error);
       const errorMessage = error.response?.data?.message || "Não foi possível redefinir sua senha. O link pode ter expirado ou ser inválido.";

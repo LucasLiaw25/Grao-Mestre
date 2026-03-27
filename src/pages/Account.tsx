@@ -9,7 +9,7 @@ import { usersApi, addressesApi } from "@/lib/api";
 import type { UserResponseDTO, UserRequestDTO, AddressResponseDTO, AddressRequestDTO } from "@/types";
 import { Footer } from "@/components/Footer";
 import { AddressForm } from "@/components/AddressForm";
-import { Link, useNavigate } from "react-router-dom"; // Importar Link e useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 
 export default function Account() {
@@ -321,98 +321,7 @@ export default function Account() {
           )}
         </motion.section>
 
-        {/* Change Password Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="glass-card p-8"
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="font-serif text-3xl font-bold text-foreground">Trocar de Senha</h2>
-            {!isEditingPassword && (
-              <Button variant="outline" onClick={() => setIsEditingPassword(true)}>
-                <KeyRound className="w-4 h-4 mr-2" /> Trocar de Senha
-              </Button>
-            )}
-          </div>
-
-          <AnimatePresence>
-            {isEditingPassword && (
-              <motion.form
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                onSubmit={handlePasswordSubmit}
-                className="space-y-6 overflow-hidden"
-              >
-                {/* <div className="mt-4">
-                  <label htmlFor="currentPassword" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Current Password
-                  </label>
-                  <input
-                    type="password"
-                    id="currentPassword"
-                    name="currentPassword"
-                    value={passwordFormData.currentPassword}
-                    onChange={handlePasswordChange}
-                    required
-                    disabled={updatePasswordMutation.isPending}
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed"
-                  />
-                </div> */}
-                <div>
-                  <label htmlFor="newPassword" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Nova Senha
-                  </label>
-                  <input
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    value={passwordFormData.newPassword}
-                    onChange={handlePasswordChange}
-                    required
-                    disabled={updatePasswordMutation.isPending}
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-muted-foreground mb-2">
-                    Confirmar Nova Senha
-                  </label>
-                  <input
-                    type="password"
-                    id="confirmNewPassword"
-                    name="confirmNewPassword"
-                    value={passwordFormData.confirmNewPassword}
-                    onChange={handlePasswordChange}
-                    required
-                    disabled={updatePasswordMutation.isPending}
-                    className="w-full px-4 py-2 border border-border rounded-lg bg-input text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:bg-muted disabled:cursor-not-allowed"
-                  />
-                </div>
-
-                <div className="flex justify-end gap-4 pt-4">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => {
-                      setIsEditingPassword(false);
-                      setPasswordFormData({ currentPassword: "", newPassword: "", confirmNewPassword: "" });
-                    }}
-                    disabled={updatePasswordMutation.isPending}
-                  >
-                    <X className="w-4 h-4 mr-2" /> Cancelar
-                  </Button>
-                  <Button type="submit" disabled={updatePasswordMutation.isPending}>
-                    {updatePasswordMutation.isPending ? "Updating..." : <Save className="w-4 h-4 mr-2" />} Update Password
-                  </Button>
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </motion.section>
+    
 
         {/* My Addresses Section */}
         <motion.section
