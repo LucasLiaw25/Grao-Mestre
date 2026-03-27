@@ -84,9 +84,9 @@ export default function Home() {
               Colção de Produtos
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a href="#features" className="btn-hero-ghost w-full sm:w-auto">
+            <Link to="/about" className="btn-hero-ghost w-full sm:w-auto">
               Nossa História
-            </a>
+            </Link>
           </motion.div>
         </div>
 

@@ -27,6 +27,8 @@ import { DashboardLayout } from "./pages/DashboardLayout";
 import OrderPending from "./pages/Pending";
 import OrderFailure from "./pages/Failure";
 import OrderSuccess from "./pages/Sucess";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ChangePassword";
 
 const queryClient = new QueryClient();
 
@@ -62,8 +64,8 @@ const AppRoutes = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/change-password"element={<Login/>} />
-
+        <Route path="/forgot-password"element={<ForgotPassword/>} />
+        <Route path="/change-password" element={<ResetPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />

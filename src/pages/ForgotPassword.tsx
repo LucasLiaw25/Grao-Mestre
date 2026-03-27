@@ -1,27 +1,34 @@
+// FILE NAME: ForgotPassword.tsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { usersApi } from "@/lib/api";
 
-export default function Login() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await login({ email, password });
-      toast({ title: "Bem Vindo!", description: "Você logou com sucesso." });
-      navigate("/");
-    } catch {
-      toast({ title: "Error", description: "Email ou senha inválido.", variant: "destructive" });
+      await usersApi.requestPasswordReset(email);
+      toast({
+        title: "Link enviado!",
+        description: "Verifique seu e-mail para redefinir sua senha.",
+      });
+      navigate("/login");
+    } catch (error) {
+      console.error("Erro ao solicitar redefinição de senha:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível enviar o link. Verifique o e-mail e tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +44,7 @@ export default function Login() {
       >
         <div className="text-center mb-10">
           <Link to="/" className="font-serif text-3xl font-bold text-foreground">Grão Mestre.</Link>
-          <p className="text-muted-foreground mt-3">Entre na sua conta</p>
+          <p className="text-muted-foreground mt-3">Redefina sua senha</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass-card p-8 space-y-6">
@@ -49,32 +56,17 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-              placeholder="your@email.com"
-            />
-          </div>
-          <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">Password</label>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-              placeholder="••••••••"
+              placeholder="seu@email.com"
             />
           </div>
           <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? "Enviando link..." : "Enviar Link de Redefinição"}
           </Button>
-          <p className="text primary font-medium" mt-6>Esqueceu sua senha? 
-             <Link to="/forgot-password" className="text-primary font-medium hover:underline"> Clique aqui</Link>
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Lembrou da sua senha?{" "}
+            <Link to="/login" className="text-primary font-medium hover:underline">Faça login</Link>
           </p>
         </form>
-
-        <p className="text-center text-sm text-muted-foreground mt-6">
-          Não tem uma conta?{" "}
-          <Link to="/register" className="text-primary font-medium hover:underline">Crie uma</Link>
-        </p>
       </motion.div>
     </div>
   );
