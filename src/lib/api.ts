@@ -79,8 +79,8 @@ export const usersApi = {
     updateScopes: (id: number, scopeIds: number[]) => apiClient.put<UserResponseDTO>(`/users/${id}/scopes`, scopeIds),
     delete: (id: number) => apiClient.delete<void>(`/users/${id}`),
     activate: (token: string) => apiClient.get<UserResponseDTO>(`/users/activate?token=${token}`),
-    requestPasswordReset: (email: string) => apiClient.post(`/change-password/${email}`),
-    updatePasswordWithToken: (token: string, newPassword: string) => apiClient.put("/password", { newPassword }, { params: { token } }),
+    requestPasswordReset: (email: string) => apiClient.post(`/users/change-password/${email}`),
+    updatePasswordWithToken: (token: string, newPassword: string) => apiClient.put("/users/password", { newPassword }, { params: { token } }),
 };
 
 export const expensesApi = {
