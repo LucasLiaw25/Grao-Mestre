@@ -107,28 +107,48 @@ export const expensesApi = {
     getExpensesForLastMonth: () => apiClient.get<ExpenseResponseDTO[]>("/expenses/last-month"),
 };
 
+interface ImageFileReactNative {
+    uri: string;
+    name: string;
+    type: string;
+}
+
+
 export const productsApi = {
     getAll: () => apiClient.get<ProductResponseDTO[]>("/products"),
     getById: (id: number) => apiClient.get<ProductResponseDTO>(`/products/${id}`),
     getByCategory: (categoryId: number) => apiClient.get<ProductResponseDTO[]>(`/products/category/${categoryId}`),
     getByPriceRange: (minPrice: number, maxPrice: number) => apiClient.get<ProductResponseDTO[]>(`/products/price-range`, { params: { minPrice, maxPrice } }),
     search: (searchTerm: string) => apiClient.get<ProductResponseDTO[]>(`/products/search`, { params: { searchTerm } }),
-    create: (product: ProductRequestDTO, imageFile?: File) => {
+    create: (product: ProductRequestDTO, imageFile?: ImageFileReactNative) => {
         const formData = new FormData();
         formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
+
         if (imageFile) {
-            formData.append("image", imageFile);
+            formData.append("image", {
+                uri: imageFile.uri,
+                name: imageFile.name,
+                type: imageFile.type,
+            } as any); 
         }
+
         return apiClient.post<ProductResponseDTO>("/products", formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
-    update: (id: number, product: ProductRequestDTO, imageFile?: File) => {
+
+    update: (id: number, product: ProductRequestDTO, imageFile?: ImageFileReactNative) => {
         const formData = new FormData();
         formData.append("product", new Blob([JSON.stringify(product)], { type: "application/json" }));
+
         if (imageFile) {
-            formData.append("image", imageFile);
+            formData.append("image", {
+                uri: imageFile.uri,
+                name: imageFile.name,
+                type: imageFile.type,
+            } as any); 
         }
+
         return apiClient.put<ProductResponseDTO>(`/products/${id}`, formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         });

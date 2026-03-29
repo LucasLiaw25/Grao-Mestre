@@ -37,12 +37,6 @@ import {
 import { Pagination } from "@/components/Pagination";
 import OrderDetailsModal from "@/components/OrderDetailModal";
 
-// ─── Helpers de data ──────────────────────────────────────────────────────────
-
-/**
- * Retorna o início do dia atual em formato ISO_DATE_TIME
- * que o Spring aceita: "2026-03-15T00:00:00"
- */
 function getTodayStart(): string {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
@@ -76,8 +70,6 @@ function getUrgencyLevel(seconds: number): "normal" | "warning" | "critical" {
   if (seconds > 1800) return "warning";
   return "normal";
 }
-
-// ─── Configurações de Status ──────────────────────────────────────────────────
 
 const STATUS_CONFIG: Record<
   OrderStatus,
@@ -202,34 +194,37 @@ const ElapsedTimer: React.FC<{ dateStr: string }> = ({ dateStr }) => {
 };
 
 const SummaryCard: React.FC<{
-  label: string;
-  value: string | number;
-  sub?: string;
-  icon: React.ElementType;
-  accent: string;
+  label: string
+  value: string | number
+  sub?: string
+  icon: React.ElementType
+  accent: string
 }> = ({ label, value, sub, icon: Icon, accent }) => (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
     animate={{ opacity: 1, y: 0 }}
     className={cn(
-      "bg-card border border-border/60 rounded-2xl p-5 flex items-start gap-4",
-      "hover:shadow-md transition-shadow duration-200"
+      'bg-card border border-border/60 rounded-2xl p-5 flex items-start gap-4',
+      'hover:shadow-md transition-shadow duration-200'
     )}
   >
-    <div className={cn("p-2.5 rounded-xl shrink-0", accent)}>
-      <Icon className="h-5 w-5" />
+    <div className={cn('p-2.5 rounded-xl shrink-0', accent)}>
+      <Icon className='h-5 w-5' />
     </div>
-    <div className="min-w-0">
-      <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase mb-0.5">
+
+    <div className='min-w-0 flex-1'>
+      <p className='text-xs text-muted-foreground font-medium uppercase mb-0.5 tracking-wide'>
         {label}
       </p>
-      <p className="text-2xl font-bold font-serif text-foreground leading-none">{value}</p>
-      {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
+
+      <p className='font-serif font-bold leading-none text-2xl sm:text-2xl md:text-3xl text-foreground break-words'>
+        {value}
+      </p>
+
+      {sub && <p className='text-xs text-muted-foreground mt-1'>{sub}</p>}
     </div>
   </motion.div>
 );
-
-// ─── Linha de Pedido (Desktop) ────────────────────────────────────────────────
 
 const OrderRow: React.FC<{
   order: OrderResponseDTO;

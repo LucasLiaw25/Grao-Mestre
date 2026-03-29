@@ -82,7 +82,6 @@ const PERIOD_CONFIG: { value: TimePeriod | "CUSTOM"; label: string }[] = [
   { value: "CUSTOM",              label: "Personalizado"  },
 ];
 
-
 const MetricCard: React.FC<{
   label: string;
   value: string | number;
@@ -96,26 +95,32 @@ const MetricCard: React.FC<{
     initial={{ opacity: 0, y: 16 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.35, delay }}
-    className="bg-card border border-border/60 rounded-2xl p-5 flex items-start gap-4 hover:shadow-md transition-shadow duration-200"
+    className="bg-card border border-border/60 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 hover:shadow-md transition-shadow duration-200"
   >
-    <div className={cn("p-2.5 rounded-xl shrink-0", accent)}>
+    <div className={cn("p-2.5 rounded-xl shrink-0 self-center sm:self-start", accent)}>
       <Icon className="h-5 w-5" />
     </div>
-    <div className="min-w-0 flex-1">
-      <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase mb-0.5">
+    <div className="min-w-0 flex-1 text-center sm:text-left">
+      <p className="text-xs text-muted-foreground font-medium tracking-wide uppercase mb-0.5 truncate">
         {label}
       </p>
-      <p className="text-2xl font-bold font-serif text-foreground leading-none">{value}</p>
+      {/* AJUSTE: Adicionado 'truncate' e 'title' para evitar quebra de linha no valor */}
+      <p
+        className="text-xl sm:text-2xl font-bold font-serif text-foreground leading-none truncate"
+        title={String(value)}
+      >
+        {value}
+      </p>
       {sub && (
         <p className={cn(
-          "text-xs mt-1 flex items-center gap-1",
+          "text-xs mt-1 flex items-center justify-center sm:justify-start gap-1 truncate",
           trend === "up"   && "text-emerald-600",
           trend === "down" && "text-red-500",
           !trend           && "text-muted-foreground"
         )}>
-          {trend === "up"   && <TrendingUp  className="h-3 w-3" />}
-          {trend === "down" && <TrendingDown className="h-3 w-3" />}
-          {sub}
+          {trend === "up"   && <TrendingUp  className="h-3 w-3 shrink-0" />}
+          {trend === "down" && <TrendingDown className="h-3 w-3 shrink-0" />}
+          <span className="truncate">{sub}</span>
         </p>
       )}
     </div>
@@ -149,7 +154,8 @@ const RankRow: React.FC<{
       <div className="flex-1 min-w-0 space-y-1">
         <div className="flex items-center justify-between gap-2">
           <p className="text-sm font-medium text-foreground truncate">{label}</p>
-          <p className="text-sm font-bold text-foreground font-mono shrink-0">
+          {/* AJUSTE: Adicionado 'whitespace-nowrap' para garantir que o valor não quebre */}
+          <p className="text-sm font-bold text-foreground font-mono shrink-0 whitespace-nowrap">
             {mode === "currency" ? formatCurrency(safeValue) : `${safeValue}×`}
           </p>
         </div>
@@ -219,11 +225,11 @@ const Section: React.FC<{
 };
 
 const SkeletonCard = () => (
-  <div className="bg-card border border-border/60 rounded-2xl p-5 flex items-start gap-4 animate-pulse">
-    <div className="h-10 w-10 rounded-xl bg-muted shrink-0" />
-    <div className="flex-1 space-y-2">
-      <div className="h-3 w-24 bg-muted rounded" />
-      <div className="h-7 w-32 bg-muted rounded" />
+  <div className="bg-card border border-border/60 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 animate-pulse">
+    <div className="h-10 w-10 rounded-xl bg-muted shrink-0 self-center sm:self-start" />
+    <div className="flex-1 space-y-2 text-center sm:text-left">
+      <div className="h-3 w-24 bg-muted rounded mx-auto sm:mx-0" />
+      <div className="h-7 w-32 bg-muted rounded mx-auto sm:mx-0" />
     </div>
   </div>
 );
@@ -518,11 +524,11 @@ export default function FinancialReport() {
 
         {/* ── Cards de Métricas ──────────────────────────────────────── */}
         {loadingReport ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-4">
             {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
           </div>
         ) : report ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-4">
             <MetricCard label="Receita Total"   value={formatCurrency(report.totalRevenue)}  icon={DollarSign}   accent="bg-emerald-500/10 text-emerald-600" trend="up"   delay={0}    />
             <MetricCard label="Despesas"        value={formatCurrency(report.totalExpenses)} icon={TrendingDown} accent="bg-red-500/10 text-red-500"          trend="down" delay={0.04} />
             <MetricCard label="Lucro Líquido"   value={formatCurrency(report.netProfit)}     icon={TrendingUp}   accent={report.netProfit >= 0 ? "bg-emerald-500/10 text-emerald-600" : "bg-red-500/10 text-red-500"} trend={report.netProfit >= 0 ? "up" : "down"} sub={`${profitMargin}% de margem`} delay={0.08} />
@@ -665,20 +671,24 @@ export default function FinancialReport() {
                     transition={{ duration: 0.2 }}
                     className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
-                    <div className="bg-muted/30 border border-border/50 rounded-2xl p-5">
+                    <div className="bg-muted/30 border border-border/50 rounded-2xl p-5 min-w-0">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="p-2 rounded-lg bg-emerald-500/10">
                           <DollarSign className="h-4 w-4 text-emerald-600" />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">Receita</p>
-                          <p className="text-[11px] text-muted-foreground truncate max-w-[140px]">{selectedCategory.name}</p>
+                          <p className="text-[11px] text-muted-foreground truncate">{selectedCategory.name}</p>
                         </div>
                       </div>
                       {loadingCatRevenue ? (
                         <div className="h-8 w-28 bg-muted rounded animate-pulse" />
                       ) : (
-                        <p className="text-2xl font-bold font-serif text-foreground">
+                        /* AJUSTE: Adicionado 'truncate' e 'title' */
+                        <p 
+                          className="text-2xl font-bold font-serif text-foreground truncate"
+                          title={categoryRevenue !== undefined ? formatCurrency(categoryRevenue) : ""}
+                        >
                           {categoryRevenue !== undefined && !isNaN(categoryRevenue)
                             ? formatCurrency(categoryRevenue)
                             : "—"}
@@ -686,20 +696,21 @@ export default function FinancialReport() {
                       )}
                     </div>
 
-                    <div className="bg-muted/30 border border-border/50 rounded-2xl p-5">
+                    <div className="bg-muted/30 border border-border/50 rounded-2xl p-5 min-w-0">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="p-2 rounded-lg bg-blue-500/10">
                           <Hash className="h-4 w-4 text-blue-600" />
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-xs text-muted-foreground uppercase tracking-wide font-medium">Qtd. Vendida</p>
-                          <p className="text-[11px] text-muted-foreground truncate max-w-[140px]">{selectedCategory.name}</p>
+                          <p className="text-[11px] text-muted-foreground truncate">{selectedCategory.name}</p>
                         </div>
                       </div>
                       {loadingCatQty ? (
                         <div className="h-8 w-16 bg-muted rounded animate-pulse" />
                       ) : (
-                        <p className="text-2xl font-bold font-serif text-foreground">
+                        /* AJUSTE: Adicionado 'truncate' */
+                        <p className="text-2xl font-bold font-serif text-foreground truncate">
                           {categoryQty !== undefined && !isNaN(categoryQty)
                             ? `${categoryQty} un.`
                             : "—"}
@@ -814,15 +825,15 @@ export default function FinancialReport() {
                         <Coffee className="h-5 w-5 text-muted-foreground" />
                       </div>
                       <div className="min-w-0">
-                        <p className="font-medium text-foreground text-sm">{selectedProduct.name}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="font-medium text-foreground text-sm truncate">{selectedProduct.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">
                           {selectedProduct.category?.name} · Preço unitário: {formatCurrency(selectedProduct.price)}
                         </p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="bg-muted/30 border border-border/50 rounded-2xl p-5">
+                      <div className="bg-muted/30 border border-border/50 rounded-2xl p-5 min-w-0">
                         <div className="flex items-center gap-2 mb-3">
                           <div className="p-2 rounded-lg bg-emerald-500/10">
                             <DollarSign className="h-4 w-4 text-emerald-600" />
@@ -832,7 +843,11 @@ export default function FinancialReport() {
                         {loadingProdRevenue ? (
                           <div className="h-8 w-28 bg-muted rounded animate-pulse" />
                         ) : (
-                          <p className="text-2xl font-bold font-serif text-foreground">
+                          /* AJUSTE: Adicionado 'truncate' e 'title' */
+                          <p 
+                            className="text-2xl font-bold font-serif text-foreground truncate"
+                            title={productRevenue !== undefined ? formatCurrency(productRevenue) : ""}
+                          >
                             {productRevenue !== undefined && !isNaN(productRevenue)
                               ? formatCurrency(productRevenue)
                               : "—"}
@@ -840,7 +855,7 @@ export default function FinancialReport() {
                         )}
                       </div>
 
-                      <div className="bg-muted/30 border border-border/50 rounded-2xl p-5">
+                      <div className="bg-muted/30 border border-border/50 rounded-2xl p-5 min-w-0">
                         <div className="flex items-center gap-2 mb-3">
                           <div className="p-2 rounded-lg bg-blue-500/10">
                             <Hash className="h-4 w-4 text-blue-600" />
@@ -850,7 +865,8 @@ export default function FinancialReport() {
                         {loadingProdQty ? (
                           <div className="h-8 w-16 bg-muted rounded animate-pulse" />
                         ) : (
-                          <p className="text-2xl font-bold font-serif text-foreground">
+                          /* AJUSTE: Adicionado 'truncate' */
+                          <p className="text-2xl font-bold font-serif text-foreground truncate">
                             {productQty !== undefined && !isNaN(productQty)
                               ? `${productQty} un.`
                               : "—"}
