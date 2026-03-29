@@ -451,8 +451,8 @@ export default function UserManagement() {
 
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-background pt-24 pb-24 overflow-x-hidden">
+      <div className="w-full max-w-screen-lg mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {/* ── Cabeçalho ──────────────────────────────────────────────────────── */}
         <motion.div
@@ -877,7 +877,7 @@ export default function UserManagement() {
                           >
                             <div className="pt-4 space-y-3">
                               {/* Detalhes de contato */}
-                              <div className="grid grid-cols-2 gap-2">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <div className="rounded-xl bg-stone-50 border border-stone-100 p-3">
                                   <p className="text-[9px] uppercase font-black text-stone-400 mb-1">E-mail</p>
                                   <p className="text-xs font-semibold text-foreground truncate">{user.email}</p>
@@ -964,7 +964,7 @@ export default function UserManagement() {
       {/* Modal de Usuário                                                       */}
       {/* ══════════════════════════════════════════════════════════════════════ */}
       <Dialog open={isUserFormModalOpen} onOpenChange={setIsUserFormModalOpen}>
-        <DialogContent className="sm:max-w-[680px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
+        <DialogContent className="w-full sm:max-w-[680px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
           {/* Header */}
           <div className="px-6 pt-6 pb-4 border-b border-border/50 bg-stone-50/80">
             <DialogHeader>
@@ -1215,7 +1215,7 @@ export default function UserManagement() {
       {/* Modal de Endereço                                                      */}
       {/* ══════════════════════════════════════════════════════════════════════ */}
       <Dialog open={isAddressFormModalOpen} onOpenChange={setIsAddressFormModalOpen}>
-        <DialogContent className="sm:max-w-[520px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
+        <DialogContent className="w-full sm:max-w-[520px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
           {/* Header */}
           <div className="px-6 pt-6 pb-4 border-b border-border/50 bg-stone-50/80">
             <DialogHeader>
@@ -1249,7 +1249,7 @@ export default function UserManagement() {
             </div>
 
             {/* Número + Complemento */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label className="text-xs font-black uppercase text-stone-500">Número</Label>
                 <Input
@@ -1272,7 +1272,7 @@ export default function UserManagement() {
             </div>
 
             {/* CEP + Cidade + Estado */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5">
                 <Label className="text-xs font-black uppercase text-stone-500">CEP</Label>
                 <Input

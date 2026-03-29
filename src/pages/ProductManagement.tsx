@@ -413,8 +413,8 @@ export default function ProductManagement() {
 
   // ── Render ────────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-background pt-24 pb-24 overflow-x-hidden">
+      <div className="w-full max-w-[95vw] sm:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 space-y-8">
 
         {/* ── Cabeçalho ──────────────────────────────────────────────────────── */}
         <motion.div
@@ -993,7 +993,7 @@ export default function ProductManagement() {
 
       {/* ── Modal de Formulário ──────────────────────────────────────────────── */}
       <Dialog open={isFormModalOpen} onOpenChange={setIsFormModalOpen}>
-        <DialogContent className="sm:max-w-[600px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
+        <DialogContent className="w-full max-w-[95vw] sm:max-w-[600px] bg-card text-foreground rounded-2xl p-0 overflow-hidden">
           {/* Header */}
           <div className="px-6 pt-6 pb-4 border-b border-border/50 bg-stone-50/80">
             <DialogHeader>
@@ -1009,19 +1009,19 @@ export default function ProductManagement() {
           </div>
 
           {/* Body */}
-          <form onSubmit={handleSubmit} className="px-6 py-5 space-y-5 max-h-[70vh] overflow-y-auto">
+          <form onSubmit={handleSubmit} className="px-4 py-4 space-y-5 max-h-[70vh] overflow-y-auto">
 
             {/* Imagem preview */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <div className="shrink-0">
                 {imagePreview ? (
                   <img
                     src={imagePreview}
                     alt="Preview"
-                    className="h-20 w-20 rounded-2xl object-cover border border-stone-200"
+                    className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl object-cover border border-stone-200"
                   />
                 ) : (
-                  <div className="h-20 w-20 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center">
+                  <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-2xl bg-stone-100 border border-stone-200 flex items-center justify-center">
                     <ImageIcon className="h-8 w-8 text-stone-400" />
                   </div>
                 )}
@@ -1071,7 +1071,7 @@ export default function ProductManagement() {
             </div>
 
             {/* Preço + Estoque */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label className="text-xs font-black uppercase text-stone-500 flex items-center gap-1">
                   <DollarSign className="h-3 w-3" /> Preço (R$)

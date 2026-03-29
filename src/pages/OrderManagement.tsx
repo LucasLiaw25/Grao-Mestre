@@ -333,8 +333,8 @@ export default function OrderManagement() {
 
   // ── Render ───────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="min-h-screen bg-background pt-24 pb-24 overflow-x-hidden">
+      <div className="w-full max-w-[95vw] sm:max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 space-y-8">
 
         {/* ── Cabeçalho ──────────────────────────────────────────────────────── */}
         <motion.div

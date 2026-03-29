@@ -385,5 +385,5 @@ export default function ExpenseManagement() {
         </div>
       </main>
     </motion.div>
-  );
+  );  
 }

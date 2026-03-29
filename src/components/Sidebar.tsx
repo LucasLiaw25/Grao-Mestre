@@ -119,13 +119,15 @@ export function Sidebar({ className }: SidebarProps) {
     <>
       {/* Botão Hambúrguer (Ícone de barras) — Fixo no topo esquerdo em mobile */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-md bg-card border border-border/60 text-foreground shadow-lg hover:bg-muted transition-all active:scale-95"
-          aria-label="Abrir menu"
-        >
-          <Menu className="w-6 h-6" />
-        </button>
+        <div className="lg:hidden fixed top-4 left-4 z-50 rounded-xl bg-card/95 border border-border/60 shadow-lg backdrop-blur-sm">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="p-3 rounded-xl text-foreground hover:bg-muted transition-all active:scale-95"
+            aria-label="Abrir menu"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
       )}
 
       {/* Versão Desktop (Sempre visível em ecrãs grandes) */}

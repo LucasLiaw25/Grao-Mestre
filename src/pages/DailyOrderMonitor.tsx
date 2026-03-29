@@ -513,8 +513,8 @@ export default function DailyOrderMonitor() {
 
   // ─────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+    <div className="min-h-screen bg-background overflow-x-hidden">
+      <div className="w-full max-w-[95vw] sm:max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
 
         {/* ── Cabeçalho ─────────────────────────────────────────────── */}
         <motion.div
@@ -559,7 +559,7 @@ export default function DailyOrderMonitor() {
         </motion.div>
 
         {/* ── Cards de Métricas ──────────────────────────────────────── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
           <SummaryCard
             label="Pedidos Hoje"
             value={isLoading ? "—" : totalElements}
