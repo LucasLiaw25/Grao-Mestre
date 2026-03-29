@@ -49,13 +49,13 @@ export function Sidebar({ className }: SidebarProps) {
   }, [isOpen]);
 
   const navItems = [
-    { to: "/dashboard/admin-dashboard", label: "Dashboard Overview", icon: LayoutDashboard },
-    { to: "/dashboard/user-management", label: "Users", icon: User },
-    { to: "/dashboard/category-management", label: "Categories", icon: Tag },
-    { to: "/dashboard/product-management", label: "Products", icon: Coffee },
-    { to: "/dashboard/order-management", label: "Orders", icon: ShoppingBag },
+    { to: "/dashboard/admin-dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/dashboard/user-management", label: "Usuários", icon: User },
+    { to: "/dashboard/category-management", label: "Categorias", icon: Tag },
+    { to: "/dashboard/product-management", label: "Productos", icon: Coffee },
+    { to: "/dashboard/order-management", label: "Pedidos", icon: ShoppingBag },
     { to: "/dashboard/financial-report", label: "Reports", icon: BarChart3 },
-    { to: "/dashboard/expense-management", label: "Expense", icon: Wallet },
+    { to: "/dashboard/expense-management", label: "Despesas", icon: Wallet },
   ];
 
   const SidebarContent = ({ innerClassName }: { innerClassName?: string }) => (

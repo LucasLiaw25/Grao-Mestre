@@ -164,17 +164,17 @@ export default function CategoryManagement() {
         >
           <div>
             <h1 className="font-serif text-4xl font-bold text-foreground tracking-tight">
-              Category Management
+              Gerenciamento de Categorias
             </h1>
             <p className="text-stone-500 text-sm mt-1">
               {totalCategories > 0
-                ? `${totalCategories} categories found`
-                : "No categories registered yet"}
+                ? `${totalCategories} categorias encontradas`
+                : "Nenhuma categoria encontrada"}
             </p>
           </div>
           <Button onClick={openCreateModal} className="gap-2 bg-stone-800 hover:bg-stone-700 text-amber-50">
             <Plus className="w-4 h-4" />
-            New Category
+            Nova Categoria
           </Button>
         </motion.div>
 
@@ -193,13 +193,13 @@ export default function CategoryManagement() {
                   <thead>
                     <tr className="border-b bg-stone-50/80 text-left">
                       <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-stone-500">
-                        Name
+                        Nome
                       </th>
                       <th className="px-6 py-4 text-xs font-black uppercase tracking-wider text-stone-500">
-                        Description
+                        Descrição
                       </th>
                       <th className="px-6 py-4 text-right text-xs font-black uppercase tracking-wider text-stone-500">
-                        Actions
+                        Ações
                       </th>
                     </tr>
                   </thead>
@@ -295,10 +295,10 @@ export default function CategoryManagement() {
                   <Tag className="w-6 h-6 opacity-50" />
                 </div>
                 <p className="font-serif text-lg font-semibold text-stone-500">
-                  No categories found
+                  Nenhuma cateogria encontrada
                 </p>
                 <p className="text-xs">
-                  Start by adding a new category to organize your products.
+                  Começe a organizar seus produtos criando categorias para facilitar a navegação dos seus clientes.
                 </p>
                 <Button 
                   variant="link" 
@@ -318,11 +318,11 @@ export default function CategoryManagement() {
         <DialogContent className="sm:max-w-[500px] bg-card text-foreground rounded-2xl p-6 border-border/60 shadow-lg">
           <DialogHeader>
             <DialogTitle className="font-serif text-2xl font-bold text-foreground tracking-tight">
-              {editingCategory ? "Edit Category" : "Create Category"}
+              {editingCategory ? "Editar Categoria" : "Criar Categoria"}
             </DialogTitle>
             <DialogDescription className="text-stone-500 text-sm">
               {editingCategory 
-                ? "Make changes to the category details below." 
+                ? "Faça mudanças nos detalhes da categoria abaixo." 
                 : "Fill in the details to add a new category to your store."}
             </DialogDescription>
           </DialogHeader>
@@ -330,7 +330,7 @@ export default function CategoryManagement() {
           <form onSubmit={handleSubmit} className="grid gap-5 py-4">
             <div className="space-y-1.5">
               <Label htmlFor="name" className="text-xs font-bold uppercase text-stone-500">
-                Name
+                Nome
               </Label>
               <Input
                 id="name"
@@ -345,7 +345,7 @@ export default function CategoryManagement() {
 
             <div className="space-y-1.5">
               <Label htmlFor="description" className="text-xs font-bold uppercase text-stone-500">
-                Description
+                Descrição
               </Label>
               <Textarea
                 id="description"
@@ -364,7 +364,7 @@ export default function CategoryManagement() {
                 type="button"
                 className="rounded-xl border-stone-200 text-stone-600 hover:bg-stone-50"
               >
-                Cancel
+                Cancelar
               </Button>
               <Button 
                 type="submit" 
@@ -374,9 +374,9 @@ export default function CategoryManagement() {
                 {createCategoryMutation.isPending || updateCategoryMutation.isPending ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : editingCategory ? (
-                  "Save Changes"
+                  "Salvar Mudanças"
                 ) : (
-                  "Create Category"
+                  "Criar Categoria"
                 )}
               </Button>
             </DialogFooter>

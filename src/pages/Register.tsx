@@ -83,7 +83,7 @@ export default function Register() {
 
       await register({ name, email, phone: cleanPhone, cpf: cleanCpf, password });
       toast({ title: "Account created!", description: "Please check your email to activate your account." });
-      navigate("/");
+      navigate("/login");
     } catch {
       toast({ title: "Error", description: "Registration failed. Please try again.", variant: "destructive" });
     } finally {
